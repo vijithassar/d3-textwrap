@@ -100,16 +100,28 @@ function textwrap(d, i) {
 
 						var new_string;
 						
+						// initialize or append to the string depending on 
+						// whether it's the first word
 						if(previous_string) {
 							new_string = previous_string + ' ' + word;
 						} else {
 							new_string = word;
 						}
+						
+						// add the newest, longest substring to the text node and
+						// measure the length
 						text_node.text(new_string);
 						var new_width = this.getComputedTextLength();
-
+		
+						// adjust the length by the offset we've tracked
+						// due to the misreported length discussed above
 						var test_width = new_width - offset;
 						
+						// if our latest version of the string is too 
+						// big for the bounds, use the previous
+						// version of the string (without the newest word
+						// added) and use this latest word to restart the
+						// process with a new tspan
 						if(test_width > max_width) {
 							if(previous_string !== '') {
 								var temp = {string: previous_string, width: previous_width - offset};
@@ -119,8 +131,12 @@ function textwrap(d, i) {
 								text_node.text(word);
 							}
 						}
+						// if we're up to the last word in the array,
+						// get the computed length as is without
+						// appending anything
 						if(i == text_to_wrap_array.length - 1) {
 							var final_string = new_string.substr(previous_string.length);
+							// make sure it's not an empty string
 							if(final_string.substr(0, 1) == ' ') {
 								final_string = final_string.substr(1);
 							}
@@ -132,14 +148,16 @@ function textwrap(d, i) {
 							}
 						} 
 					}
-
+					
+					// double check that there are no empty substrings
 					var substrings_clean = [];
 					for(i = 0; i < substrings.length; i++) {
 						if(substrings[i].string.length > 0) {
 							substrings_clean.push(substrings[i]);
 						}
 					}
-					
+
+					// append each substring as a tspan					
 					var current_tspan;
 					var tspan_count;
 					for(i = 0; i < substrings_clean.length; i++) {
@@ -153,10 +171,15 @@ function textwrap(d, i) {
 						current_tspan
 							.attr('dy', function(d) {
 								if(i > 0) {
+									// line height shouldn't be hard coded
+									// will fix this later
 									return '1.5em';
 								}
 							})
 						;
+						// shift left from default position, which 
+						// is probably based on the full length of the
+						// text string until we make this adjustment
 						current_tspan
 							.attr('dx', function() {
 								var render_offset = 0;
