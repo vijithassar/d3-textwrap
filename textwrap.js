@@ -1,4 +1,8 @@
-function wrap_text(d, i) {
+// er, d and i will not be our input arguments when this is properly
+// converted into a flexible plugin – you'll just call it in on a text
+// selection.
+
+function textwrap(d, i) {
 
 		// if we have foreign objects available, insert with a div
 		if(typeof SVGForeignObjectElement !== 'undefined')
