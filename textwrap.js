@@ -69,7 +69,7 @@ function textwrap(d, i) {
 					} else {
 						// if there are no spaces, chop it in half.
 						// this is a hack! better to apply
-						// CSS word-break: break-word; in order
+						// CSS word-break: break-all; in order
 						// to handle long single-word strings that
 						// might overflow. will fix to dynamically
 						// compute the appropriate number of cuts later.
