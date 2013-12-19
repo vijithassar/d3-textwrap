@@ -3,7 +3,7 @@ function wrap_text(d, i) {
 		// if we have foreign objects available, insert with a div
 		if(typeof SVGForeignObjectElement !== 'undefined')
 		 {
-			// establish variables to quickly reference nodes
+			// establish variables to quickly reference target nodes later
 			var parent = d3.select(this.parentNode);
 			var text_node = parent.selectAll('text');
 			// extract our desired content from the single text element
@@ -43,34 +43,59 @@ function wrap_text(d, i) {
 		// jump through hoops to separate into tspans
 		if(typeof SVGForeignObjectElement == 'undefined')
 		 {
-
+	
+			// only fire the rest of this if the text content
+			// overflows the desired dimensions
 			if(this.getBBox().width > max_width) {
-
+				
+				
+				// grab the text content from the text node 
+				// into a variable and then zero out the 
+				// initial content; we'll reinsert in a moment
+				// using tspan elements.
 				var text_node = d3.select(this);					
+				var text_to_wrap = text_node.text();
 				text_node.text('');
-
-				var text_to_wrap = d.name;
+				
 				if(text_to_wrap) {
-					var text_to_wrap_clean = key_to_string(text_to_wrap);
+					// split on spaces to create an array of individual words
 					var text_to_wrap_array;
-					if(text_to_wrap_clean.indexOf(' ') !== -1) {
-						text_to_wrap_array = text_to_wrap_clean.split(' ');
+					if(text_to_wrap.indexOf(' ') !== -1) {
+						text_to_wrap_array = text_to_wrap.split(' ');
 					} else {
-						var string_length = text_to_wrap_clean.length;
+						// if there are no spaces, chop it in half.
+						// this is a hack! better to apply
+						// CSS word-break: break-word; in order
+						// to handle long single-word strings that
+						// might overflow. will fix to dynamically
+						// compute the appropriate number of cuts later.
+						var string_length = text_to_wrap.length;
 						var midpoint = parseInt(string_length / 2);
-						var first_half = text_to_wrap_clean.substr(0, midpoint);
-						var second_half = text_to_wrap_clean.substr(midpoint, string_length);
+						var first_half = text_to_wrap.substr(0, midpoint);
+						var second_half = text_to_wrap.substr(midpoint, string_length);
 						text_to_wrap_array = [first_half, second_half];
 					}
 					
+					// new array where we'll store the words re-assembled into
+					// substrings that have been tested against the desired
+					// maximum wrapping width
 					var substrings = [];
+					// computed text length is arguably incorrectly reported for
+					// all tspans after the first one, in that they will include
+					// previous separate tspans, so to compensate we need to manually
+					// track the computed text length of all previous tspans/substrings
+					// and use that to offset the miscalculation to get the actual
+					// position we want to use in rendering the text in the SVG.
 					var offset = 0;
+					// loop through the words and test the computed text length
+					// of the string against the maximum width
 					for(i = 0; i < text_to_wrap_array.length; i++) {
 						var word = text_to_wrap_array[i];
 						var previous_string = text_node.text();
 						var previous_width = this.getComputedTextLength();
 
 						var new_string;
+						
 						if(previous_string) {
 							new_string = previous_string + ' ' + word;
 						} else {
