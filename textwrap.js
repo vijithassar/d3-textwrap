@@ -1,4 +1,4 @@
-// er, d and i will not be our input arguments when this is properly
+// hold on, d and i will not be our input arguments when this is properly
 // converted into a flexible plugin – you'll just call it in on a text
 // selection.
 
