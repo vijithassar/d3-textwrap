@@ -3,11 +3,15 @@ function wrap_text(d, i) {
 		// if we have foreign objects available, insert with a div
 		if(typeof SVGForeignObjectElement !== 'undefined')
 		 {
+			// establish variables to quickly reference nodes
 			var parent = d3.select(this.parentNode);
 			var text_node = parent.selectAll('text');
+			// extract our desired content from the single text element
 			var text_to_wrap = text_node.text();
+			// remove the text node and replace with a foreign object
 			text_node.remove();
 			var foreign_object = parent.append('foreignObject');
+			// initialize foreign object and set dimensions, position, etc
 			foreign_object
 			    .attr("requiredFeatures", "http://www.w3.org/TR/SVG11/feature#Extensibility")
 				.attr('x', x_position)
@@ -15,14 +19,22 @@ function wrap_text(d, i) {
  				.attr('width', max_width)
  				.attr('height', max_height)
 			;
+			// insert an HTML div
 			var wrap_div = foreign_object
 				.append('xhtml:div')
+				// this class is currently hardcoded
+				// probably not necessary but easy to 
+				// override using .classed() and for now
+				// it's nice to avoid a litany of input
+				// arguments
 				.attr('class', 'wrapped')
 			;			
+			// set div to same dimensions as foreign object
 			wrap_div
  				.attr('height', max_height)
  				.attr('width', max_width)
  				.attr('style', 'padding:' + padding + 'px;')
+ 				// insert text content
 				.html(text_to_wrap)
 			;
 		}
