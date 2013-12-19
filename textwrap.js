@@ -3,27 +3,27 @@ function wrap_text(d, i) {
 		// if we have foreign objects available, insert with a div
 		if(typeof SVGForeignObjectElement !== 'undefined')
 		 {
-			var field_group = d3.select(this.parentNode);
-			var text_node = field_group.selectAll('text');
-			var field_text = text_node.text();
+			var parent = d3.select(this.parentNode);
+			var text_node = parent.selectAll('text');
+			var text_to_wrap = text_node.text();
 			text_node.remove();
-			var foreign_object = field_group.append('foreignObject');
+			var foreign_object = parent.append('foreignObject');
 			foreign_object
 			    .attr("requiredFeatures", "http://www.w3.org/TR/SVG11/feature#Extensibility")
-				.attr('x', child_x_position)
-				.attr('y', child_y_position)
- 				.attr('width', child_width)
- 				.attr('height', child_height)
+				.attr('x', x_position)
+				.attr('y', y_position)
+ 				.attr('width', max_width)
+ 				.attr('height', max_height)
 			;
 			var wrap_div = foreign_object
 				.append('xhtml:div')
 				.attr('class', 'wrapped')
 			;			
 			wrap_div
- 				.attr('height', child_height)
- 				.attr('width', child_width)
- 				.attr('style', 'padding:' + label_padding + 'px;')
-				.html(field_text)
+ 				.attr('height', max_height)
+ 				.attr('width', max_width)
+ 				.attr('style', 'padding:' + padding + 'px;')
+				.html(text_to_wrap)
 			;
 		}
 				
@@ -31,8 +31,6 @@ function wrap_text(d, i) {
 		// jump through hoops to separate into tspans
 		if(typeof SVGForeignObjectElement == 'undefined')
 		 {
-
-			var max_width = child_width;
 
 			if(this.getBBox().width > max_width) {
 
