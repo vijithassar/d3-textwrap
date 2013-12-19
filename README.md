@@ -1,13 +1,13 @@
 d3textwrap
 ==========
 
-IN A NUTSHELL
+<h3>IN A NUTSHELL</h3>
 
 JavaScript plugin to enable automatic line wrapping in SVG images by using text, tspan, and foreignObject elements, as well as computed character length calculations. Include after D3 and call textwrap() on any text node in order to magically wrap text - safe, clean, and cross-browser!
 
 --
 
-IN A CONSIDERABLY LARGER NUTSHELL
+<h3>IN A CONSIDERABLY LARGER NUTSHELL</h3>
 
 <a href="http://d3js.org">D3.js</a> is an amazing library which can be used to build interactive information and art projects with data sets, JavaScript code, and scalable vector graphics rendered in the web browser. Unfortunately it has one big problem: SVG images do not support line-wrapped text. At all! I know, I know, that's hard to believe, but it's true.
 
@@ -23,6 +23,6 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 
 --
 
-WITH MY SINCEREST REGRETS
+<h3>WITH MY SINCEREST REGRETS</h3>
 
 The logic here works and has been battle-tested in a high-traffic public D3 infographic project, but the current implementation is still broken because I haven't fully converted it from the initial idiosyncratic version into a more flexible plugin. I'm working on it! In the meantime, feel free to holler at me at @vijithassar if you need help with this sort of thing.
