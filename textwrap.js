@@ -1,5 +1,5 @@
 // hold on, d and i will not be our input arguments when this is properly
-// converted into a flexible plugin – you'll just call it in on a text
+// converted into a flexible plugin – you'll just call it on a text
 // selection.
 
 function textwrap(d, i) {
@@ -15,7 +15,7 @@ function textwrap(d, i) {
 			// remove the text node and replace with a foreign object
 			text_node.remove();
 			var foreign_object = parent.append('foreignObject');
-			// initialize foreign object and set dimensions, position, etc
+			// add foreign object and set dimensions, position, etc
 			foreign_object
 			    .attr("requiredFeatures", "http://www.w3.org/TR/SVG11/feature#Extensibility")
 				.attr('x', x_position)
@@ -53,8 +53,8 @@ function textwrap(d, i) {
 			if(this.getBBox().width > max_width) {
 				
 				
-				// grab the text content from the text node 
-				// into a variable and then zero out the 
+				// store whatever is inside the text node 
+				// in a variable and then zero out the 
 				// initial content; we'll reinsert in a moment
 				// using tspan elements.
 				var text_node = d3.select(this);					
@@ -62,17 +62,18 @@ function textwrap(d, i) {
 				text_node.text('');
 				
 				if(text_to_wrap) {
-					// split on spaces to create an array of individual words
+					// split at spaces to create an array of individual words
 					var text_to_wrap_array;
 					if(text_to_wrap.indexOf(' ') !== -1) {
 						text_to_wrap_array = text_to_wrap.split(' ');
 					} else {
 						// if there are no spaces, chop it in half.
 						// this is a hack! better to apply
-						// CSS word-break: break-all; in order
+						// CSS word-break: break-all in order
 						// to handle long single-word strings that
-						// might overflow. will fix to dynamically
-						// compute the appropriate number of cuts later.
+						// might overflow without spaces. will fix to
+						// dynamically compute the appropriate number
+						// of cuts later.
 						var string_length = text_to_wrap.length;
 						var midpoint = parseInt(string_length / 2);
 						var first_half = text_to_wrap.substr(0, midpoint);
@@ -86,41 +87,37 @@ function textwrap(d, i) {
 					var substrings = [];
 					// computed text length is arguably incorrectly reported for
 					// all tspans after the first one, in that they will include
-					// previous separate tspans, so to compensate we need to manually
-					// track the computed text length of all previous tspans/substrings
-					// and use that to offset the miscalculation to get the actual
+					// the width of previous separate tspans. to compensate we need
+					// to manually track the computed text length of all those
+					// previous tspans and substrings, and then use that to offset
+					// the miscalculation. this then gives us the actual correct
 					// position we want to use in rendering the text in the SVG.
 					var offset = 0;
 					// loop through the words and test the computed text length
-					// of the string against the maximum width
+					// of the string against the maximum desired wrapping width
 					for(i = 0; i < text_to_wrap_array.length; i++) {
 						var word = text_to_wrap_array[i];
 						var previous_string = text_node.text();
 						var previous_width = this.getComputedTextLength();
-
+						// initialize the current word as the first word
+						// or append to the previous string if one exists
 						var new_string;
-						
-						// initialize or append to the string depending on 
-						// whether it's the first word
 						if(previous_string) {
 							new_string = previous_string + ' ' + word;
 						} else {
 							new_string = word;
 						}
-						
-						// add the newest, longest substring to the text node and
+						// add the newest substring back to the text node and
 						// measure the length
 						text_node.text(new_string);
 						var new_width = this.getComputedTextLength();
-		
 						// adjust the length by the offset we've tracked
 						// due to the misreported length discussed above
 						var test_width = new_width - offset;
-						
 						// if our latest version of the string is too 
 						// big for the bounds, use the previous
 						// version of the string (without the newest word
-						// added) and use this latest word to restart the
+						// added) and use the latest word to restart the
 						// process with a new tspan
 						if(test_width > max_width) {
 							if(previous_string !== '') {
@@ -136,7 +133,7 @@ function textwrap(d, i) {
 						// appending anything
 						if(i == text_to_wrap_array.length - 1) {
 							var final_string = new_string.substr(previous_string.length);
-							// make sure it's not an empty string
+							// remove leading spaces if present
 							if(final_string.substr(0, 1) == ' ') {
 								final_string = final_string.substr(1);
 							}
@@ -148,15 +145,14 @@ function textwrap(d, i) {
 							}
 						} 
 					}
-					
 					// double check that there are no empty substrings
+					// because those would create blank tspans
 					var substrings_clean = [];
 					for(i = 0; i < substrings.length; i++) {
 						if(substrings[i].string.length > 0) {
 							substrings_clean.push(substrings[i]);
 						}
 					}
-
 					// append each substring as a tspan					
 					var current_tspan;
 					var tspan_count;
