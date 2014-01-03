@@ -2,7 +2,7 @@
 
 Note: At this time the plugin wrapper for this code is still under development.
 The logic will work if carefully transplanted to other projects, but it can't yet
-simply be called on a selection by calling d3.textwrap(). That is the eventual goal,
+simply be applied to a selection by calling d3.textwrap(). That is the eventual goal,
 though – stay tuned!
 
 */
