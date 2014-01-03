@@ -1,14 +1,18 @@
-// hold on, d and i will not be our input arguments when this is properly
-// converted into a flexible plugin – you'll just call it on a text
-// selection.
+(function() {
 
-function textwrap(d, i) {
-
-		// if we have foreign objects available, insert with a div
-		if(typeof SVGForeignObjectElement !== 'undefined')
-		 {
+    // create the plugin method twice, both for regular use
+    // and again for use inside the enter() selection
+    d3.selection.prototype.textwrap = d3.selection.enter.prototype.textwrap = function() {
+    
+        // save callee into a variable so we can continue to refer to it 
+        // as the function scope changes
+        var selection = this;
+        
+        // wrap using html and foreignObjects if they are supported
+		function wrap_with_foreign_objects(item) {
+            console.log('wrapping with foreign object');
 			// establish variables to quickly reference target nodes later
-			var parent = d3.select(this.parentNode);
+			var parent = d3.select(item.parentNode);
 			var text_node = parent.selectAll('text');
 			// extract our desired content from the single text element
 			var text_to_wrap = text_node.text();
@@ -42,17 +46,13 @@ function textwrap(d, i) {
 				.html(text_to_wrap)
 			;
 		}
-				
-		// if we can't just insert foreign objects, 
-		// jump through hoops to separate into tspans
-		if(typeof SVGForeignObjectElement == 'undefined')
-		 {
-	
+
+        // wrap with tspans if foreignObject is undefined
+		function wrap_with_tspans(text_node) {
+            console.log('wrapping with tspans');
 			// only fire the rest of this if the text content
 			// overflows the desired dimensions
 			if(this.getBBox().width > max_width) {
-				
-				
 				// store whatever is inside the text node 
 				// in a variable and then zero out the 
 				// initial content; we'll reinsert in a moment
@@ -189,8 +189,32 @@ function textwrap(d, i) {
 							})
 						;
 					}
-
 				}
 			}
 		}
+
+        // test for browser support and then switch
+        // between the different text wrapping methods
+        var wrap_method;        
+		if(typeof SVGForeignObjectElement !== 'undefined') {
+		    wrap_method = wrap_with_foreign_objects;
+		} else {
+		    wrap_method = wrap_with_tspans;
+		}
+		        
+		// if selection is empty, don't do anything
+		if(selection.length == 0) {
+		    // return the selection unchanged if we can't wrap
+		    return selection;
+		// otherwise run the wrap function for each item
+		// in the selection
+		} else {
+            for(var i = 0; i < selection.length; i++) {
+                var item = selection[i];
+                wrap_method(item);
+            }
+		}
+		
 	}
+	
+})();
