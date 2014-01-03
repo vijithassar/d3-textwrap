@@ -111,7 +111,7 @@ though – stay tuned!
                         var offset = 0;
                         // loop through the words and test the computed text length
                         // of the string against the maximum desired wrapping width
-                        for(i = 0; i < text_to_wrap_array.length; i++) {
+                        for(var i = 0; i < text_to_wrap_array.length; i++) {
                             var word = text_to_wrap_array[i];
                             var previous_string = text_node.text();
                             var previous_width = this.getComputedTextLength();
@@ -164,7 +164,7 @@ though – stay tuned!
                         // double check that there are no empty substrings
                         // because those would create blank tspans
                         var substrings_clean = [];
-                        for(i = 0; i < substrings.length; i++) {
+                        for(var i = 0; i < substrings.length; i++) {
                             if(substrings[i].string.length > 0) {
                                 substrings_clean.push(substrings[i]);
                             }
@@ -172,7 +172,7 @@ though – stay tuned!
                         // append each substring as a tspan					
                         var current_tspan;
                         var tspan_count;
-                        for(i = 0; i < substrings_clean.length; i++) {
+                        for(var i = 0; i < substrings_clean.length; i++) {
                             var substring = substrings_clean[i].string;
                             if(i > 0) {
                                 var previous_substring = substrings_clean[i - 1];
