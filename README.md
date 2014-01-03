@@ -25,4 +25,4 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 
 <h3>WITH MY SINCEREST REGRETS</h3>
 
-The logic here works and has been battle-tested in a high-traffic public D3 infographic project, but the current implementation is still broken because I haven't fully converted it from the initial idiosyncratic version into a more flexible plugin. That is, the code works, but I need to write a better wrapper for it in order to make it easier to use quickly as part of the regular D3 workflow. I'm working on it! In the meantime, feel free to holler at me at @vijithassar if you need help with this sort of thing.
+The logic here is correct and has been battle-tested in a high-traffic public D3 infographic project, but the current implementation is still broken because I haven't fully converted it from the initial idiosyncratic version into a more flexible plugin. That is, the code works, but I need to write a better wrapper for it in order to make it easier to use quickly as part of the regular D3 workflow. I'm working on it! In the meantime, feel free to holler at me at @vijithassar if you need help with this sort of thing.
