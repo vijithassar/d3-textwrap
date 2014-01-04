@@ -17,10 +17,18 @@ though – stay tuned!
         // as the function scope changes
         var selection = this;
         
-        // if boundaries are not defined, just return self without
-        // doing anything
-        if(!bounds) {   
-            console.log('boundaries are undefined; exiting without wrapping text');
+        // check that we have the necessary conditions for this function to operate properly
+        if(
+            // selection it's operating on cannot be not empty
+            (selection.length == 0) ||
+            // d3 is available
+            (!d3) ||
+            // this function has not already been declared
+            (typeof d3.selection.prototype.textwrap !== 'undefined') ||
+            // desired wrapping bounds must be provided as an input argument
+            (!bounds)
+        ) {   
+            console.log('necessary conditions are not met; exiting without wrapping text');
             return selection;
         } else {
  
@@ -218,17 +226,11 @@ though – stay tuned!
                 wrap_method = wrap_with_tspans;
             }
                 
-            // if selection is empty, don't do anything
-            if(selection.length == 0) {
-                // return the selection unchanged if we can't wrap
-                return selection;
-            // otherwise run the wrap function for each item
+            // run the wrap function for each item
             // in the selection
-            } else {
-                for(var i = 0; i < selection.length; i++) {
-                    var item = selection[i];
-                    wrap_method(item);
-                }
+            for(var i = 0; i < selection.length; i++) {
+                var item = selection[i];
+                wrap_method(item);
             }
         
         }
