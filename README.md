@@ -45,7 +45,7 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 4) Figure out your wrapping boundaries. This can either be a D3 selection which points to a <rect> element in the SVG, which in many cases may be the easiest solution, or alternatively you can also provide a simple JavaScript object which contains the necessary positioning information.
 ```
 <script>
-    var bounds = d3.select('rect#boundaries');
+    var bounds = d3.select('rect#desired-wrapping-boundaries');
     ...
 </script>
 ```
@@ -61,7 +61,7 @@ OR
     ...
 </script>
 ```
-5) Once you've defined your bounds, simply call the .textwrap() method on a D3 text selection pass them as an argument.
+5) Once you've defined your bounds, simply call the .textwrap() method on a D3 text selection and pass them as an argument.
 ```
 <script>
     d3.select('text#wrapme').textwrap(bounds);
