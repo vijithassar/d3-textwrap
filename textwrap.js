@@ -22,7 +22,8 @@ eventual goal here, of course; stay tuned.
     
     var force_wrap_method;
     // set this variable to a string value to always force a particular
-    // wrap method for development purposes. set to 'tspan' to 
+    // wrap method for development purposes, for example to check tspan
+    // rendering using a foreignobject-enabled browser. set to 'tspan' to 
     // use tspans and 'foreignobject' to use foreignobject
     // force_wrap_method = 'tspans'; // uncomment statement to use tspans
     // force_wrap_method = 'foreignobjects'; // uncomment statement to use foreignobjects
