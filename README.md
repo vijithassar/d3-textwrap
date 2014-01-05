@@ -106,7 +106,7 @@ In many cases it might make sense to create a rect to use as your boundary defin
 </svg>
 ```
 
-In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a g element and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're zooming the text node around on the page by modifying its attributes directly it's not going to be able to successfully chase it around. In other words, do this:
+In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a g element and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're moving the text node around on the page by modifying its attributes directly it's not going to be able to successfully chase it around. In other words, do this:
 
 ```html
 <svg>
