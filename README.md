@@ -72,15 +72,15 @@ OR
 <h5>MISCELLANEOUS USAGE NOTES</h5>
 
 - Rectangular shapes only for now - no circles or wacky polygons at the moment.
-- This plugin can't yet calculate for rounded corners as specified by rx and ry radius attributs on a <rect>. You can still use this with rounded <rect> elements, but if you're not careful your text might bump into those corner boundaries.
-- In many cases it might make sense to create a <rect> to use as your boundary definition, but then make it invisible through styling. This is an easy way to add padding and margins, for example, since strictly speaking the SVG specification doesn't support them because there's no box model or document flow.
+- This plugin can't yet calculate for rounded corners as specified by rx and ry radius attributes on a rect element. You can still use this with rounded rect elements, but if you're not careful your text might bump into those corner boundaries.
+- In many cases it might make sense to create a rect to use as your boundary definition, but then make it invisible through styling. This is an easy way to add padding and margins, for example, since strictly speaking the SVG specification doesn't support them because there's no box model or document flow.
 ```html
 <svg>
     <rect style="fill: none;" id="bounds">
     ...
 </svg>
 ```
-- In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a <g> group and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're zooming the <text> node around on the page by modifying its attributes directly it's not going to be able to successfully chase it around. In other words, do this:
+- In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a g element and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're zooming the text node around on the page by modifying its attributes directly it's not going to be able to successfully chase it around. In other words, do this:
 
 ```html
 <svg>
@@ -100,4 +100,4 @@ Not this:
 </svg>
 ```
 - You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Maybe try using a zoom effect via transforms instead, or hiding or adjusting the opacity of your text during the animation and then re-running the .textwrap() method with the updated bounds after the animation is complete.
-- <strong>With my sincerest regrets</strong>, the logic for text wrapping in Internet Explorer using <tspan> elements is correct and has been battle-tested in a high-traffic public D3 infographic project, but the current implementation is still broken because I haven't fully converted it from that initial idiosyncratic version into the plugin structure. That portion of the code totally works, and you're obviously free to pilfer it and paste it directly into your projects, but I'm still working on calling it via the .textwrap() method provided by this plugin.
+- <strong>With my sincerest regrets</strong>, the logic for text wrapping in Internet Explorer using tspan elements is correct and has been battle-tested in a high-traffic public D3 infographic project, but the current implementation is still broken because I haven't fully converted it from that initial idiosyncratic version into the plugin structure. That portion of the code totally works, and you're obviously free to pilfer it and paste it directly into your projects, but I'm still working on calling it via the .textwrap() method provided by this plugin.
