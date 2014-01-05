@@ -75,8 +75,8 @@ OR
     var bounds = {
         x: 300, // bounding box is 300 pixels from the left
         y: 400, // bounding box is 400 pixels from the top
-        width: 500,
-        height: 600
+        width: 500, // bounding box is 500 pixels across
+        height: 600 // bounding box is 600 pixels tall
     }
     ...
 </script>
