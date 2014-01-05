@@ -35,6 +35,49 @@ Even worse, there's a <a href="http://stackoverflow.com/questions/9137222/raphae
 
 This plugin solves all the above problems. It first tests for foreignObject support and uses the simpler HTML option if it's available. If not, then it will fire a whole long sequence of tests to automatically split your text into whatever subsections will fit within the bounds you've specified, and then handles positioning of all the tspans for you. Safari gets foreignObjects, Internet Explorer gets tspans, all text wraps properly, and you get to go watch television and enjoy a snack instead of spending ages debugging this nonsense the way I did.
 
+--
+
+<h3>AN ILLUSTRATIVE EXAMPLE</h3>
+
+For example, you might start with a simple text node containing a string.
+
+```html
+<svg>
+    <text id="wrapme">All work and no play makes Vijith a dull boy</text>
+</svg>
+```
+
+Then you'd run the plugin method; more on the bounds argument in the instructions below.
+
+```html
+<script>
+    d3.select('text#wrapme').textwrap(bounds);
+</script>
+```
+
+In most browsers, it'd be converted to a foreignObject rendering, so the text would automatically wrap to the dimensions of the div.
+
+```html
+<svg>
+    <foreignObject requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+        <div class="wrapped">
+            All work and no play makes Vijith a dull boy.    
+        </div>
+    </foreignObject>
+<svg>
+```
+
+But in Internet Explorer and any other browsers that can't handle foreignObjects, it'd switch to using tspan elements instead, with all the positioning headaches automatically solved.
+
+```html
+<svg>
+    <text id="wrapme">
+        <tspan>All work and no play</tspan>
+        <tspan>makes Vijith a dull boy</tspan>
+    </text>
+</svg>
+```
+
 -- 
 
 <h3>INSTRUCTIONS</h3>
