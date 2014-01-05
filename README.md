@@ -25,7 +25,7 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 
 <h3>INSTRUCTIONS</h3>
 
-1) Download the plugin and put it on your server somewhere, because I'm not yet providing a hosted version of this.
+1) Download the plugin and put it on your server somewhere (I'm not yet providing a hosted version).
 
 2) Load the D3 library as a script in your HTML document, either the version <a href="http://d3js.org/d3.v3.min.js">hosted remotely</a> or a copy you keep locally.
 ```html
@@ -43,14 +43,14 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 </html>
 ```
 4) Figure out your wrapping boundaries. This can either be a D3 selection which points to a <rect> element in the SVG, which in many cases may be the easiest solution, or alternatively you can also provide a simple JavaScript object which contains the necessary positioning information.
-```javascript
+```
 <script>
     var bounds = d3.select('rect#boundaries');
     ...
 </script>
 ```
 OR
-```javascript
+```
 <script>
     var bounds = {
         x: 300, // bounding box is 300 pixels from the left
@@ -62,7 +62,7 @@ OR
 </script>
 ```
 5) Once you've defined your bounds, simply call the .textwrap() method on a D3 text selection pass them as an argument.
-```javascript
+```
 <script>
     d3.select('text#wrapme').textwrap(bounds);
     ...
