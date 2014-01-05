@@ -42,7 +42,7 @@ This plugin solves all the above problems. It first tests for foreignObject supp
     ...
 </html>
 ```
-4) <b>After you've loaded both D3 and the plugin</b>, load your D3 code, either as a remote script tag or inline right on the page.
+4) <b>After you've loaded both D3 and the plugin</b>, load your D3 project code, either as a remote script tag or inline right on the page.
 ```html
 <html>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
@@ -50,7 +50,9 @@ This plugin solves all the above problems. It first tests for foreignObject supp
     <script src="http://project.script.url" charset="utf-8"></script>
     ...
 </html>
+```
 OR
+```html
 <html>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://plugin.script.url" charset="utf-8"></script>
@@ -61,14 +63,14 @@ OR
 </html>
 ```
 5) Figure out your wrapping boundaries. This can either be a D3 selection which points to a <rect> element in the SVG, which in many cases may be the easiest solution, or alternatively you can also provide a simple JavaScript object which contains the necessary positioning information.
-```
+```html
 <script>
     var bounds = d3.select('rect#desired-wrapping-boundaries');
     ...
 </script>
 ```
 OR
-```
+```html
 <script>
     var bounds = {
         x: 300, // bounding box is 300 pixels from the left
@@ -80,7 +82,7 @@ OR
 </script>
 ```
 6) Once you've defined your bounds, simply call the .textwrap() method on a D3 text selection and pass them as an argument.
-```
+```html
 <script>
     d3.select('text#wrapme').textwrap(bounds);
     ...
