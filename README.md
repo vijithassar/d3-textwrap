@@ -43,7 +43,7 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 
 <h3>QUICK START</h3>
 
-<em>if you already know D3</em>
+<em>if you already know the ropes</em>
 
 Begin with a single simple text node containing a text string.
 
