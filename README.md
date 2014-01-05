@@ -44,6 +44,7 @@ You might start with a single simple text node containing a text string.
 ```html
 <svg>
     <text id="wrapme">All work and no play makes Vijith a dull boy.</text>
+    ...
 </svg>
 ```
 
@@ -52,6 +53,7 @@ Then you'd run the plugin method; more on the bounds argument in the instruction
 ```html
 <script type="text/javascript">
     d3.select('text#wrapme').textwrap(bounds);
+    ...
 </script>
 ```
 
@@ -64,6 +66,7 @@ In most browsers, it'd be converted to a foreignObject rendering, so the text wo
             All work and no play makes Vijith a dull boy.    
         </div>
     </foreignObject>
+    ...
 <svg>
 ```
 
@@ -76,6 +79,7 @@ But in Internet Explorer and any other browsers that can't handle foreignObjects
         <tspan>makes Vijith a dull</tspan>
         <tspan>boy.</tspan>
     </text>
+    ...
 </svg>
 ```
 
@@ -227,6 +231,7 @@ It can be inline and anonymous:
         // code to dynamically determine bounds
         // for each text node goes here
     });
+    ...
 </script>
 ```
 
@@ -239,6 +244,7 @@ It can also be named:
         // for each text node goes here
     }
     d3.select('text').textwrap(get_bounds);
+    ...
 </script>
 ```
 
