@@ -25,7 +25,7 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 
 <h3>INSTRUCTIONS</h3>
 
-1) Download the plugin and put it on your server somewhere (I'm not yet providing a hosted version).
+1) <a href="https://github.com/vijithassar/d3textwrap/archive/master.zip">Download the plugin</a>, unzip it, and put the textwrap.js file on your server somewhere (I'm not yet providing a hosted version). Make a note of the URL that points to the plugin, because you'll need it in step 3 below.
 
 2) Load the D3 library as a script in your HTML document, either the version <a href="http://d3js.org/d3.v3.min.js">hosted remotely</a> or a copy you keep locally.
 ```html
