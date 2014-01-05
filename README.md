@@ -127,7 +127,9 @@ OR
     ...
 </script>
 ```
+
 OR
+
 ```html
 <script>
     var bounds = {
@@ -139,6 +141,9 @@ OR
     ...
 </script>
 ```
+
+If you're doing the latter, your bounds must be a simple JavaScript object (aka associative array) with properties (aka keys) for x, y, width, and height, each of which contains an integer value.
+
 6) Once you've defined your bounds, simply call the .textwrap() method on a D3 text selection and pass them as an argument.
 ```html
 <script>
