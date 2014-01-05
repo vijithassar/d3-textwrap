@@ -52,10 +52,10 @@ OR
 ```
 <script>
     var bounds = {
-        x = 300, // bounding box is 300 pixels from the left
-        y = 400, // bounding box is 400 pixels from the top
-        width = 500,
-        height = 600
+        x: 300, // bounding box is 300 pixels from the left
+        y: 400, // bounding box is 400 pixels from the top
+        width: 500,
+        height: 600
     }
     ...
 </script>
