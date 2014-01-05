@@ -9,7 +9,7 @@ JavaScript plugin to enable automatic line wrapping in SVG images by using text,
 
 --
 
-<img src="https://raw.github.com/vijithassar/d3textwrap/master/textwrap-header-image.jpg">
+<img src="https://raw.github.com/vijithassar/d3textwrap/master/header-image.jpg">
 
 --
 
