@@ -90,7 +90,6 @@ though – stay tuned!
             // input bounds must validate
             (!verify_bounds(bounds))
         ) {   
-            console.log('necessary conditions are not met; exiting without wrapping text');
             // try to return the calling selection if possible
             // so as not to interfere with methods downstream in the 
             // chain
