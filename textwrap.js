@@ -46,7 +46,8 @@ though – stay tuned!
             // d3-selected rect and try to extract the positions
             else if(typeof bounds == 'array') {
                 return extract_bounds(bounds);
-            // if it's anything else, the bounds are invalid and
+            // if it's neither an object nor a numerically indexed array,
+            // then the bounds are clearly invalid and you should fix them.
             } else {
                 return false;
             }
@@ -66,7 +67,19 @@ though – stay tuned!
             (!verify_bounds(bounds))
         ) {   
             console.log('necessary conditions are not met; exiting without wrapping text');
-            return selection;
+            // try to return the calling selection if possible
+            // so as not to interfere with methods downstream in the 
+            // chain
+            if(selection) {
+                return selection;
+            // if all else fails, just return false. if you hit this point then you're
+            // almost trying to call the textwrap() method on something that
+            // doesn't make sense!
+            } else {
+                return false;
+            }
+        // if we've validated everything then we can finally proceed
+        // to the meat of this operation
         } else {
  
             // wrap using html and foreignObjects if they are supported
