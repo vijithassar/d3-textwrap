@@ -30,25 +30,35 @@ though – stay tuned!
         function verify_bounds(bounds) {
             // if it's an associative array, make sure it has all the
             // necessary properties represented directly
-            if(typeof bounds == 'object') {
-                if(
-                    (bounds.x) &&
-                    (bounds.y) &&
-                    (bounds.dx) &&
-                    (bounds.dy)
-                ) {
-                    return bounds;
-                } else {
-                    return false;
-                }
-            }
+            if(
+                (typeof bounds == 'object') &&
+                (bounds.x) &&
+                (bounds.y) &&
+                (bounds.dx) &&
+                (bounds.dy)
+            ) {
+                // if that's the case, then the bounds are fine and we
+                // can just return them
+                return bounds;
             // if it's a numerically indexed array, assume it's a
             // d3-selected rect and try to extract the positions
-            else if(Object.prototype.toString.call( someVar ) === '[object Array]') {
+            } else if(
+                    // first try to make sure it's an array using Array.isArray
+                    (
+                        (typeof Array.isArray == 'function') &&
+                        (Array.isArray(bounds))
+                    ) || 
+                    // but since Array.isArray isn't always supported, fall
+                    // back to casting to the object to string when it's not
+                    (Object.prototype.toString.call(bounds) === '[object Array]')
+            ) {
+                // once you're sure it's an array, extract the boundaries
+                // from the rect
                 return extract_bounds(bounds);
-            // if it's neither an object nor a numerically indexed array,
-            // then the bounds are clearly invalid and you should fix them.
             } else {
+            // but if the bounds are neither an object nor a numerical 
+            // array, then the bounds argument is invalid and you'll
+            // need to fix it
                 return false;
             }
         }
