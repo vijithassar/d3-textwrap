@@ -195,7 +195,9 @@ Not this:
 </svg>
 ```
 
-6) Similarly, note that in most cases the bounds should be subject to the same transforms as the text node. Doing otherwise isn't technically wrong or in any way prohibited, but can be a huge pain to position properly because the rect node and the text node are being moved around without really cooperating.
+6) Similarly, note that in most cases the bounds should be subject to the same transforms as the text node. It's much simpler this way.
+
+Doing otherwise isn't technically wrong or in any way prohibited, but can be a huge pain to position properly because the rect node and the text node are being moved around without really cooperating.
 
 ```html
 <svg>
@@ -219,7 +221,7 @@ Instead, just place your bounds within the same transforms as the text.
 </svg>
 ```
 
-This is also true when your bounds argument is a simple associative array – that is, the integer values in the array should account for upstream transforms.
+This is also true when your bounds argument is a simple associative array – that is, the integer values in the array should work within the context established by upstream transforms established higher up in the DOM.
 
 7) Just like anything else in D3, the bounds argument can actually be a function instead of a variable. The argument function can either select and return a D3 rect, or assemble and return an associative array. This is an easy way to run a single .textwrap() method on many text selections at once.
 
