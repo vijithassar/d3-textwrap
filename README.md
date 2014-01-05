@@ -148,7 +148,7 @@ OR
 
 --
 
-<h5>MISCELLANEOUS USAGE NOTES</h5>
+<h3>MISCELLANEOUS USAGE NOTES</h3>
 
 - Rectangular shapes only for now - no circles or wacky polygons at the moment.
 
