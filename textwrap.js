@@ -23,7 +23,7 @@ though – stay tuned!
             (selection.length == 0) ||
             // d3 is available
             (!d3) ||
-            // this function has not already been declared
+            // make sure this function has not already been declared
             (typeof d3.selection.prototype.textwrap !== 'undefined') ||
             // desired wrapping bounds must be provided as an input argument
             (!bounds)
