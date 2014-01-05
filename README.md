@@ -30,30 +30,30 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 2) Load the D3 library as a script in your HTML document, either the version <a href="http://d3js.org/d3.v3.min.js">hosted remotely</a> or a copy you keep locally.
 ```html
 <html>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8" type="text/javascript"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     ...
 </html>
 ```
 3) <b>After you've loaded D3</b>, load the plugin.
 ```html
 <html>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8" type="text/javascript"></script>
-    <script src="http://plugin.script.url" charset="utf-8" type="text/javascript"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://plugin.script.url" charset="utf-8"></script>
     ...
 </html>
 ```
 4) <b>After you've loaded both D3 and the plugin</b>, load your D3 code, either as a remote script tag or inline right on the page.
 ```html
 <html>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8" type="text/javascript"></script>
-    <script src="http://plugin.script.url" charset="utf-8" type="text/javascript"></script>
-    <script src="http://d3.project.url" charset="utf-8" type="text/javascript"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://plugin.script.url" charset="utf-8"></script>
+    <script src="http://project.script.url" charset="utf-8"></script>
     ...
 </html>
 OR
 <html>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8" type="text/javascript"></script>
-    <script src="http://plugin.script.url" charset="utf-8" type="text/javascript"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://plugin.script.url" charset="utf-8"></script>
     <script type="text/javascript">
         // D3 project code goes here
     </script>
