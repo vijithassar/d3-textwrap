@@ -27,7 +27,7 @@ though – stay tuned!
         // double check the input argument for the wrapping
         // boundaries to make sure it actually contains all
         // the information we'll need in order to wrap successfully
-        function verify_bounds(bounds) {
+        function verify_bounds(bounds) {   
             // if it's an associative array, make sure it has all the
             // necessary properties represented directly
             if(
@@ -62,12 +62,12 @@ though – stay tuned!
                 return false;
             }
         }
-        
+
         // check that we have the necessary conditions for this function to operate properly
         if(
             // selection it's operating on cannot be not empty
             (selection.length == 0) ||
-            // d3 is available
+            // d3 must be available
             (!d3) ||
             // make sure this function has not already been declared
             (typeof d3.selection.prototype.textwrap !== 'undefined') ||
