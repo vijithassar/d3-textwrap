@@ -191,6 +191,32 @@ Not this:
 </svg>
 ```
 
+- Similarly, note that the bounds should be subject to the same transforms as the text node. This isn't technically prohibited, but would be a huge pain to position properly because the rect node and the text node are subject to different transforms.
+
+```html
+<svg>
+    <rect id="bounds">
+    <g transform="translate(100,200)">
+        <text id="donotanimateme">Text content to wrap</text>
+    </g>
+    ...
+</svg>
+```
+
+Instead, just place your bounds within the same transforms as the text.
+
+```html
+<svg>
+    <g transform="translate(100,200)">
+        <rect id="bounds">
+        <text id="donotanimateme">Text content to wrap</text>
+    </g>
+    ...
+</svg>
+```
+
+This is also true when your bounds argument is a simple associative array – that is, the integer values in the array should account for upstream transforms.
+
 - You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Instead, you might try using a zoom effect via transforms, or hiding or adjusting the opacity of your text during the animation and then re-running the .textwrap() method with the updated bounds after the animation is complete.
 
 <h3>WITH MY SINCEREST REGRETS</h3>
