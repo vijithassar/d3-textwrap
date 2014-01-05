@@ -19,6 +19,8 @@ To quickly give you an idea how annoying this is, here's the summary from the to
 JavaScript plugin to enable automatic line wrapping in SVG images by using text, tspan, and foreignObject elements, as well as computed character length calculations. Include after D3 and call textwrap() on any text node in order to magically line wrap long strings of text to your desired boundaries in the SVG - safe, clean, and cross-browser!
 ```
 
+Except there'd be no scrollbar. Oof.
+
 The easiest way to deal with this is to first insert something called a foreignObject into the SVG, which is essentially a generic blob of space into which you can cram whatever else you want. Just initialize a foreignObject, insert a div tag or a p tag or whatever else, and let HTML handle the line wrapping just like it would on any web page.
 
 Unfortunately <a href="http://stackoverflow.com/questions/19739672/foreignobject-is-not-working-in-ie10">Internet Explorer does not properly support foreignObject</a>. Surprise!
