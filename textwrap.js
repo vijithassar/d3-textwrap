@@ -146,7 +146,6 @@ though – stay tuned!
                 wrap_div
                     .attr('height', bounds.height)
                     .attr('width', bounds.width)
-//                    .attr('style', 'padding:' + padding + 'px;')
                     // insert text content
                     .html(text_to_wrap)
                 ;
