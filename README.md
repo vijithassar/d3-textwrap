@@ -15,9 +15,9 @@ The easiest way to deal with this is to first insert something called a foreignO
 
 Unfortunately <a href="http://stackoverflow.com/questions/19739672/foreignobject-is-not-working-in-ie10">Internet Explorer does not properly support foreignObject</a>. Surprise!
 
-However, SVG does provide something called tspans, which are basically sub-nodes placed inside the text portion of the SVG which can be used to divide a longer string of text into smaller sections. This is even properly supported by Internet Explorer! It's still tough, though, because 1) neither SVG nor D3 give you an easy way to chop the longer text into the smaller segments, and 2) once you've done all your chopping you also have to position each tspan separately, and then 3) the method of positioning is slightly different depending on whether it's the first initial tspan or one that comes later in the set. It's a tremendous pain.
+However, SVG does provide something called tspans, which are basically sub-nodes placed inside the text node of the SVG which can be used to divide a longer string of text into smaller sections. This is even properly supported by Internet Explorer! It's still tough, though, because 1) neither SVG nor D3 give you an easy way to chop the longer text into the smaller segments, and 2) once you've done all your chopping you also have to position each tspan separately, and then 3) the method of positioning is slightly different depending on whether it's the first initial tspan or one that comes later in the set. It's a tremendous pain.
 
-Even worse, there's a <a href="http://stackoverflow.com/questions/9137222/raphael-text-and-safari">silly</a> <a href="http://stackoverflow.com/questions/16701246/why-are-programmatically-inserted-svg-tspan-elements-not-drawn-except-with-d3">bug</a> in Safari wherein it doesn't support the dy attribute on tspans, which essentially just means that you can't vertically position them accurately. This includes Mobile Safari on iOS devices. In other words, if you use the foreignObject approach you're screwed on Internet Explorer, but if you use tspans you're screwed in Safari and on Apple mobile devices like iPhones and iPads. Those are all important browsers to support, and it's impossible to choose between them.
+Even worse, there's a <a href="http://stackoverflow.com/questions/9137222/raphael-text-and-safari">silly</a> <a href="http://stackoverflow.com/questions/16701246/why-are-programmatically-inserted-svg-tspan-elements-not-drawn-except-with-d3">bug</a> in Safari wherein it doesn't support the dy attribute on <tspan> elements, which essentially just means that you can't vertically position them accurately. This includes Mobile Safari on iOS devices. In other words, if you use the foreignObject approach you're screwed on Internet Explorer, but if you use tspans you're screwed in Safari and on Apple mobile devices like iPhones and iPads. Those are all important browsers to support, and it's impossible to choose between them.
 
 This plugin solves all the above problems. It first tests for foreignObject support and uses the simpler HTML option if it's available. If not, then it will fire a whole long sequence of tests to automatically split your text into whatever subsections will fit within the bounds you've specified, and then handles positioning of all the tspans for you. Safari gets foreignObjects, Internet Explorer gets tspans, all text wraps properly, and you get to go watch television and enjoy a snack instead of spending ages debugging this nonsense the way I did.
 
@@ -27,14 +27,14 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 
 1) Download the plugin and put it on your server somewhere, because I'm not yet providing a hosted version of this.
 2) Load the D3 library as a script in your HTML document, either the version <a href="http://d3js.org/d3.v3.min.js">hosted remotely</a> or a copy you keep locally.
-```
+```html
 <html>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     ...
 </html>
 ```
 3) <b>After you've loaded D3</b>, load the plugin.
-```
+```html
 <html>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://plugin.script.url" charset="utf-8"></script>
@@ -42,14 +42,14 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 </html>
 ```
 4) Figure out your wrapping boundaries. This can either be a D3 selection which points to a <rect> element in the SVG, which in many cases may be the easiest solution, or alternatively you can also provide a simple JavaScript object which contains the necessary positioning information.
-```
+```javascript
 <script>
     var bounds = d3.select('rect#boundaries');
     ...
 </script>
 ```
 OR
-```
+```javascript
 <script>
     var bounds = {
         x: 300, // bounding box is 300 pixels from the left
@@ -61,7 +61,7 @@ OR
 </script>
 ```
 5) Once you've defined your bounds, simply call the .textwrap() method on a D3 text selection pass them as an argument.
-```
+```javascript
 <script>
     d3.select('text#wrapme').textwrap(bounds);
     ...
@@ -73,7 +73,7 @@ OR
 - Rectangular shapes only for now - no circles or wacky polygons at the moment.
 - This plugin can't yet calculate for rounded corners as specified by rx and ry radius attributs on a <rect>. You can still use this with rounded <rect> elements, but if you're not careful your text might bump into those corner boundaries.
 - In many cases it might make sense to create a <rect> to use as your boundary definition, but then make it invisible through styling. This is an easy way to add padding and margins, for example, since strictly speaking the SVG specification doesn't support them because there's no box model or document flow.
-```
+```html
 <svg>
     <rect style="fill: none;" id="bounds">
     ...
@@ -81,7 +81,7 @@ OR
 ```
 - In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a <g> group and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're zooming the <text> node around on the page by modifying its attributes directly it's not going to be able to successfully chase it around. In other words, do this:
 
-```
+```html
 <svg>
     <g id="animateme">
         <text id="donotanimateme">Text content to wrap</text>
@@ -92,7 +92,7 @@ OR
 
 Not this:
 
-```
+```html
 <svg>
     <text id="animateme">Text content to wrap</text>
     ...
