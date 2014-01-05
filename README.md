@@ -72,7 +72,7 @@ OR
     ...
 </html>
 ```
-5) Figure out your wrapping boundaries. This can either be a D3 selection which points to a <rect> element in the SVG, which in many cases may be the easiest solution, or alternatively you can also provide a simple JavaScript object which contains the necessary positioning information.
+5) Figure out your wrapping boundaries. This can either be a D3 selection which points to a rect element in the SVG, which in many cases may be the easiest solution, or alternatively you can also provide a simple JavaScript object which contains the necessary positioning information.
 ```html
 <script>
     var bounds = d3.select('rect#desired-wrapping-boundaries');
