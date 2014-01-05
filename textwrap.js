@@ -7,7 +7,7 @@ has not yet been refactored for the D3 plugin format. That code will work if
 carefully transplanted to other projects, and you're welcome to harvest it and
 apply it in that manner, but it can't yet simply be applied to a selection by
 calling d3.textwrap(). I know that's kind of the whole point! That is the
-eventual goal here of course – stay tuned!
+eventual goal here, of course; stay tuned.
 
 */
 
