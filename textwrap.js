@@ -35,8 +35,8 @@ though – stay tuned!
                 console.log(bounding_client_rect);
                 bounds_extracted.x = bounding_client_rect.left;
                 bounds_extracted.y = bounding_client_rect.top;
-                bounds_extracted.dx = bounding_client_rect.width;
-                bounds_extracted.dy = bounding_client_rect.height;
+                bounds_extracted.width = bounding_client_rect.width;
+                bounds_extracted.height = bounding_client_rect.height;
                 console.log(bounds_extracted);
                 return bounds; // this doesn't actually do anything yet
             }
@@ -52,8 +52,8 @@ though – stay tuned!
                 (typeof bounds == 'object') &&
                 (bounds.x) &&
                 (bounds.y) &&
-                (bounds.dx) &&
-                (bounds.dy)
+                (bounds.width) &&
+                (bounds.height)
             ) {
                 // if that's the case, then the bounds are fine and we
                 // can just return them
