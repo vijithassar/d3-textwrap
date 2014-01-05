@@ -1,9 +1,13 @@
 /* 
 
 Note: At this time the plugin wrapper for this code is still under development.
-The logic will work if carefully transplanted to other projects, but it can't yet
-simply be applied to a selection by calling d3.textwrap(). That is the eventual goal,
-though – stay tuned!
+It works with browsers that support foreignObject, but the logic for handling 
+tspans in Internet Explorer and other browsers that don't support foreignObject
+has not yet been refactored for the D3 plugin format. That code will work if
+carefully transplanted to other projects, and you're welcome to harvest it and
+apply it in that manner, but it can't yet simply be applied to a selection by
+calling d3.textwrap(). I know that's kind of the whole point! That is the
+eventual goal here of course – stay tuned!
 
 */
 
@@ -17,9 +21,8 @@ though – stay tuned!
         // as the function scope changes
         var selection = this;
         
-        // extract wrap boundaries from any d3-selected rect
-        // and apply them to the text calling this method
-        // (this still doesn't work yet...)
+        // extract wrap boundaries from any d3-selected rect and return them
+        // in a format that matches the simpler object argument option
         var extract_bounds = function(bounds) {
             // discard the nested array wrappers added by d3
             var bounding_rect = bounds[0][0];
