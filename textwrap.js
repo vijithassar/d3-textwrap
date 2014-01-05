@@ -117,7 +117,7 @@ though – stay tuned!
             var wrap_with_foreign_objects = function(item) {
                 console.log('wrapping with foreign object');
                 // establish variables to quickly reference target nodes later
-                var parent = d3.select(item.parentNode);
+                var parent = d3.select(item[0].parentNode);
                 var text_node = parent.selectAll('text');
                 // extract our desired content from the single text element
                 var text_to_wrap = text_node.text();
