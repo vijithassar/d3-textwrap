@@ -17,6 +17,41 @@ though – stay tuned!
         // as the function scope changes
         var selection = this;
         
+        // extract wrap boundaries from any d3-selected rect
+        // and apply them to the text calling this method
+        // (this is a placeholder, functionality coming soon)
+        function extract_bounds(bounds) {
+            return bounds; // this doesn't actually do anything yet
+        }
+
+        // double check the input argument for the wrapping
+        // boundaries to make sure it actually contains all
+        // the information we'll need in order to wrap successfully
+        function verify_bounds(bounds) {
+            // if it's an associative array, make sure it has all the
+            // necessary properties represented directly
+            if(typeof bounds == 'object') {
+                if(
+                    (bounds.x) &&
+                    (bounds.y) &&
+                    (bounds.dx) &&
+                    (bounds.dy)
+                ) {
+                    return bounds;
+                } else {
+                    return false;
+                }
+            }
+            // if it's a numerically indexed array, assume it's a
+            // d3-selected rect and try to extract the positions
+            else if(typeof bounds == 'array') {
+                return extract_bounds(bounds);
+            // if it's anything else, the bounds are invalid and
+            } else {
+                return false;
+            }
+        }
+        
         // check that we have the necessary conditions for this function to operate properly
         if(
             // selection it's operating on cannot be not empty
@@ -26,7 +61,9 @@ though – stay tuned!
             // make sure this function has not already been declared
             (typeof d3.selection.prototype.textwrap !== 'undefined') ||
             // desired wrapping bounds must be provided as an input argument
-            (!bounds)
+            (!bounds) ||
+            // input bounds must validate
+            (!verify_bounds(bounds))
         ) {   
             console.log('necessary conditions are not met; exiting without wrapping text');
             return selection;
