@@ -5,6 +5,8 @@ d3textwrap
 
 JavaScript plugin to enable automatic line wrapping in SVG images by using text, tspan, and foreignObject elements, as well as computed character length calculations. Include after D3 and call textwrap() on any text node in order to magically line wrap long strings of text to your desired boundaries in the SVG - safe, clean, and cross-browser!
 
+(But, <a href="#with-my-sincerest-regrets">an important note</a>...)
+
 --
 
 <h3>IN A CONSIDERABLY LARGER NUTSHELL</h3>
@@ -126,4 +128,5 @@ Not this:
 
 You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Instead, you might try using a zoom effect via transforms instead, or hiding or adjusting the opacity of your text during the animation and then re-running the .textwrap() method with the updated bounds after the animation is complete.
 
-<strong>With my sincerest regrets</strong>, the logic for text wrapping in Internet Explorer using tspan elements is still kinda broken here. That portion of the code totally works, and has even been battle-tested in a very high-traffic infographic project, but I haven't fully converted it from that initial idiosyncratic version into the plugin structure. You're obviously free to pilfer it and paste it directly into your projects if you need a solution ASAP, but I'm still working on calling that functionality via the .textwrap() method provided by this plugin. I'm aware that this part is basically the whole point of this thing existing in the first place! Please stay tuned, I'll put it all together soon enough...
+<h3>WITH MY SINCEREST REGRETS</h3>
+he logic for text wrapping in Internet Explorer using tspan elements is still kinda broken here. That portion of the code totally works, and has even been battle-tested in a very high-traffic infographic project, but I haven't fully converted it from that initial idiosyncratic version into the plugin structure. You're obviously free to pilfer it and paste it directly into your projects if you need a solution ASAP, but I'm still working on calling that functionality via the .textwrap() method provided by this plugin. I'm aware that this part is basically the whole point of this thing existing in the first place! Please stay tuned, I'll put it all together soon enough...
