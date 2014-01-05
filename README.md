@@ -39,7 +39,7 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 
 <h3>AN ILLUSTRATIVE EXAMPLE</h3>
 
-For example, you might start with a simple text node containing a string.
+You might start with a single simple text node containing a text string.
 
 ```html
 <svg>
@@ -148,11 +148,13 @@ OR
 
 <h5>MISCELLANEOUS USAGE NOTES</h5>
 
-Rectangular shapes only for now - no circles or wacky polygons at the moment.
+- Rectangular shapes only for now - no circles or wacky polygons at the moment.
 
-This plugin can't yet calculate for rounded corners as specified by rx and ry radius attributes on a rect element. You can still use this with rounded rect elements, but if you're not careful your text might bump into those corner boundaries.
+- The class "wrapped" is automatically added to the divs that are inserted into the foreignObject. In the future this might be configurable, but for now it's nice to avoid a litany of input arguments, and it's easy enough to change – just run <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-classed">d3's .classed() method</a> and you can quickly change the class name to whatever else you might want.
 
-In many cases it might make sense to create a rect to use as your boundary definition, but then make it invisible through styling. This is an easy way to add padding and margins, for example, since strictly speaking the SVG specification doesn't support them because there's no box model or document flow.
+- This plugin can't yet calculate for rounded corners as specified by rx and ry radius attributes on a rect element. You can still use this with rounded rect elements, but if you're not careful your text might bump into those corner boundaries.
+
+- In many cases it might make sense to create a rect to use as your boundary definition, but then make it invisible through styling. This is an easy way to add padding and margins, for example, since strictly speaking the SVG specification doesn't support them because there's no box model or document flow.
 
 ```html
 <svg>
@@ -161,7 +163,7 @@ In many cases it might make sense to create a rect to use as your boundary defin
 </svg>
 ```
 
-In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a g element and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're moving the text node around on the page by modifying its attributes directly it's not going to be able to successfully chase it around. In other words, do this:
+- In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a g element and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're moving the text node around on the page by modifying its attributes directly it's not going to be able to successfully chase it around. In other words, do this:
 
 ```html
 <svg>
@@ -181,7 +183,7 @@ Not this:
 </svg>
 ```
 
-You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Instead, you might try using a zoom effect via transforms, or hiding or adjusting the opacity of your text during the animation and then re-running the .textwrap() method with the updated bounds after the animation is complete.
+- You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Instead, you might try using a zoom effect via transforms, or hiding or adjusting the opacity of your text during the animation and then re-running the .textwrap() method with the updated bounds after the animation is complete.
 
 <h3>WITH MY SINCEREST REGRETS</h3>
 The logic for text wrapping in Internet Explorer using tspan elements is still kinda broken here. That portion of the code totally works, and has even been battle-tested in a very high-traffic infographic project, but I haven't fully converted it from that initial idiosyncratic version into the plugin structure. You're obviously free to pilfer it and paste it directly into your projects if you need a solution ASAP, but I'm still working on calling that functionality via the .textwrap() method provided by this plugin. I'm aware that this part is basically the whole point of this thing existing in the first place! Please stay tuned, I'll put it all together soon enough...
