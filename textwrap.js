@@ -31,10 +31,10 @@ though – stay tuned!
             // if it's a rect, proceed to extracting the position attributes
             } else {
                 var bounds_extracted = {};
-                bounds_extracted.x = bounds.attr('x');
-                bounds_extracted.y = bounds.attr('y');
-                bounds_extracted.width = bounds.attr('width');
-                bounds_extracted.height = bounds.attr('height');
+                bounds_extracted.x = d3.select(bounding_rect).attr('x') || 0;
+                bounds_extracted.y = d3.select(bounding_rect).attr('y') || 0;
+                bounds_extracted.width = d3.select(bounding_rect).attr('width') || 0;
+                bounds_extracted.height = d3.select(bounding_rect).attr('height') || 0;
                 return bounds_extracted; // this doesn't actually do anything yet
             }
         }
@@ -144,8 +144,8 @@ though – stay tuned!
                 ;			
                 // set div to same dimensions as foreign object
                 wrap_div
-                    .attr('height', bounds.height)
-                    .attr('width', bounds.width)
+                    .style('height', bounds.height)
+                    .style('width', bounds.width)
                     // insert text content
                     .html(text_to_wrap)
                 ;
