@@ -21,6 +21,21 @@ Even worse, there's a <a href="http://stackoverflow.com/questions/9137222/raphae
 
 This plugin solves all the above problems. It first tests for foreignObject support and uses the simpler HTML option if it's available. If not, then it will fire a whole long sequence of tests to automatically split your text into whatever subsections will fit within the bounds you've specified, and then handles positioning of all the tspans for you. Safari gets foreignObjects, Internet Explorer gets tspans, all text wraps properly, and you get to go watch television and enjoy a snack instead of spending ages debugging this nonsense the way I did.
 
+-- 
+
+<h3>HOW TO USE</h3>
+
+1) Download the plugin and put it on your server somewhere.
+2) Load D3 in your HTML document, either <a href="http://d3js.org/d3.v3.min.js">remotely</a> or locally.
+<pre>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+</pre>
+3) After you've loaded D3, load the plugin.
+<pre>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="http://plugin.script.url" charset="utf-8"></script>
+</pre>
+
 --
 
 <h3>WITH MY SINCEREST REGRETS</h3>
