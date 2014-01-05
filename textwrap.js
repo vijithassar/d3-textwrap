@@ -37,8 +37,7 @@ though – stay tuned!
                 bounds_extracted.y = bounding_client_rect.top;
                 bounds_extracted.width = bounding_client_rect.width;
                 bounds_extracted.height = bounding_client_rect.height;
-                console.log(bounds_extracted);
-                return bounds; // this doesn't actually do anything yet
+                return bounds_extracted; // this doesn't actually do anything yet
             }
         }
 
