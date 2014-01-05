@@ -50,7 +50,7 @@ You might start with a single simple text node containing a text string.
 Then you'd run the plugin method; more on the bounds argument in the instructions below.
 
 ```html
-<script>
+<script type="text/javascript">
     d3.select('text#wrapme').textwrap(bounds);
 </script>
 ```
@@ -122,7 +122,7 @@ OR
 ```
 5) Figure out your wrapping boundaries. This can either be a D3 selection which points to a rect element in the SVG, which in many cases may be the easiest solution, or alternatively you can also provide a simple JavaScript object which contains the necessary positioning information.
 ```html
-<script>
+<script type="text/javascript">
     var bounds = d3.select('rect#desired-wrapping-boundaries');
     ...
 </script>
@@ -131,7 +131,7 @@ OR
 OR
 
 ```html
-<script>
+<script type="text/javascript">
     var bounds = {
         x: 300, // bounding box is 300 pixels from the left
         y: 400, // bounding box is 400 pixels from the top
@@ -146,7 +146,7 @@ If you're doing the latter, your bounds must be a simple JavaScript object (aka 
 
 6) Once you've defined your bounds, simply call the .textwrap() method on a D3 text selection and pass them as an argument.
 ```html
-<script>
+<script type="text/javascript">
     d3.select('text#wrapme').textwrap(bounds);
     ...
 </script>
@@ -156,13 +156,13 @@ If you're doing the latter, your bounds must be a simple JavaScript object (aka 
 
 <h3>MISCELLANEOUS USAGE NOTES</h3>
 
-- Rectangular shapes only for now - no circles or wacky polygons at the moment.
+1. Rectangular shapes only for now - no circles or wacky polygons at the moment.
 
-- The class "wrapped" is automatically added to the divs that are inserted into the foreignObject. In the future this might be configurable, but for now it's nice to avoid a litany of input arguments, and it's easy enough to change – just run <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-classed">d3's .classed() method</a> and you can quickly change the class name to whatever else you might want.
+1. The class "wrapped" is automatically added to the divs that are inserted into the foreignObject. In the future this might be configurable, but for now it's nice to avoid a litany of input arguments, and it's easy enough to change – just run <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-classed">d3's .classed() method</a> and you can quickly change the class name to whatever else you might want.
 
-- This plugin can't yet calculate for rounded corners as specified by rx and ry radius attributes on a rect element. You can still use this with rounded rect elements, but if you're not careful your text might bump into those corner boundaries.
+1. This plugin can't yet calculate for rounded corners as specified by rx and ry radius attributes on a rect element. You can still use this with rounded rect elements, but if you're not careful your text might bump into those corner boundaries.
 
-- In many cases it might make sense to create a rect to use as your boundary definition, but then make it invisible through styling. This is an easy way to add padding and margins, for example, since strictly speaking the SVG specification doesn't support them because there's no box model or document flow.
+1. In many cases it might make sense to create a rect to use as your boundary definition, but then make it invisible through styling. This is an easy way to add padding and margins, for example, since strictly speaking the SVG specification doesn't support them because there's no box model or document flow.
 
 ```html
 <svg>
@@ -171,7 +171,7 @@ If you're doing the latter, your bounds must be a simple JavaScript object (aka 
 </svg>
 ```
 
-- In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a g element and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're moving the text node around on the page by modifying its attributes directly it's not going to be able to successfully chase it around. In other words, do this:
+1. In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a g element and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're moving the text node around on the page by modifying its attributes directly it's not going to be able to successfully chase it around. In other words, do this:
 
 ```html
 <svg>
@@ -191,7 +191,7 @@ Not this:
 </svg>
 ```
 
-- Similarly, note that the bounds should be subject to the same transforms as the text node. This isn't technically prohibited, but would be a huge pain to position properly because the rect node and the text node are subject to different transforms.
+1. Similarly, note that the bounds should be subject to the same transforms as the text node. This isn't technically prohibited, but would be a huge pain to position properly because the rect node and the text node are subject to different transforms.
 
 ```html
 <svg>
@@ -217,7 +217,32 @@ Instead, just place your bounds within the same transforms as the text.
 
 This is also true when your bounds argument is a simple associative array – that is, the integer values in the array should account for upstream transforms.
 
-- You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Instead, you might try using a zoom effect via transforms, or hiding or adjusting the opacity of your text during the animation and then re-running the .textwrap() method with the updated bounds after the animation is complete.
+1. Just like anything else in D3, the bounds argument can actually be a function instead of a variable. The argument function can either select and return a D3 rect, or assemble an associative array. This is an easy way to run a single .wraptext() method on many text selections at once.
+
+It can be inline and anonymous:
+
+```html
+<script type="text/javascript">
+    d3.select('text').textwrap(function(d, i) {
+        // code to dynamically determine bounds
+        // for each text node goes here
+    });
+</script>
+```
+
+It can also be named:
+
+```html
+<script type="text/javascript">
+    function get_bounds(d, i) {
+        // code to dynamically determine bounds
+        // for each text node goes here
+    };
+    d3.select('text').textwrap(get_bounds);
+</script>
+```
+
+1. You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Instead, you might try using a zoom effect via transforms, or hiding or adjusting the opacity of your text during the animation and then re-running the .textwrap() method with the updated bounds after the animation is complete.
 
 <h3>WITH MY SINCEREST REGRETS</h3>
 The logic for text wrapping in Internet Explorer using tspan elements is still kinda broken here. That portion of the code totally works, and has even been battle-tested in a very high-traffic infographic project, but I haven't fully converted it from that initial idiosyncratic version into the plugin structure. You're obviously free to pilfer it and paste it directly into your projects if you need a solution ASAP, but I'm still working on calling that functionality via the .textwrap() method provided by this plugin. I'm aware that this part is basically the whole point of this thing existing in the first place! Please stay tuned, I'll put it all together soon enough...
