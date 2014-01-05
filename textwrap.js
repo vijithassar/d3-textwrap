@@ -19,9 +19,27 @@ though – stay tuned!
         
         // extract wrap boundaries from any d3-selected rect
         // and apply them to the text calling this method
-        // (this is a placeholder, functionality coming soon)
+        // (this still doesn't work yet...)
         function extract_bounds(bounds) {
-            return bounds; // this doesn't actually do anything yet
+            // discard the nested array wrappers added by d3
+            var bounding_rect = bounds[0][0];
+            // sanitize the svg element name so we can test against it
+            var element_type = bounding_rect.tagName.toString();
+            // if it's not a rect, exit
+            if(element_type !== 'rect') {
+                return false;
+            // if it's a rect, proceed to extracting the position attributes
+            } else {
+                var bounding_client_rect = bounds.node().getBoundingClientRect();
+                var bounds_extracted = {};
+                console.log(bounding_client_rect);
+                bounds_extracted.x = bounding_client_rect.left;
+                bounds_extracted.y = bounding_client_rect.top;
+                bounds_extracted.dx = bounding_client_rect.width;
+                bounds_extracted.dy = bounding_client_rect.height;
+                console.log(bounds_extracted);
+                return bounds; // this doesn't actually do anything yet
+            }
         }
 
         // double check the input argument for the wrapping
@@ -69,8 +87,6 @@ though – stay tuned!
             (selection.length == 0) ||
             // d3 must be available
             (!d3) ||
-            // make sure this function has not already been declared
-            (typeof d3.selection.prototype.textwrap !== 'undefined') ||
             // desired wrapping bounds must be provided as an input argument
             (!bounds) ||
             // input bounds must validate
