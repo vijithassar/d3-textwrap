@@ -20,7 +20,7 @@ though – stay tuned!
         // extract wrap boundaries from any d3-selected rect
         // and apply them to the text calling this method
         // (this still doesn't work yet...)
-        function extract_bounds(bounds) {
+        var extract_bounds = function(bounds) {
             // discard the nested array wrappers added by d3
             var bounding_rect = bounds[0][0];
             // sanitize the svg element name so we can test against it
@@ -32,7 +32,6 @@ though – stay tuned!
             } else {
                 var bounding_client_rect = bounds.node().getBoundingClientRect();
                 var bounds_extracted = {};
-                console.log(bounding_client_rect);
                 bounds_extracted.x = bounding_client_rect.left;
                 bounds_extracted.y = bounding_client_rect.top;
                 bounds_extracted.width = bounding_client_rect.width;
@@ -44,7 +43,7 @@ though – stay tuned!
         // double check the input argument for the wrapping
         // boundaries to make sure it actually contains all
         // the information we'll need in order to wrap successfully
-        function verify_bounds(bounds) {   
+        var verify_bounds = function(bounds) {   
             // if it's an associative array, make sure it has all the
             // necessary properties represented directly
             if(
@@ -108,7 +107,7 @@ though – stay tuned!
         } else {
  
             // wrap using html and foreignObjects if they are supported
-            function wrap_with_foreign_objects(item) {
+            var wrap_with_foreign_objects = function(item) {
                 console.log('wrapping with foreign object');
                 // establish variables to quickly reference target nodes later
                 var parent = d3.select(item.parentNode);
@@ -121,10 +120,10 @@ though – stay tuned!
                 // add foreign object and set dimensions, position, etc
                 foreign_object
                     .attr("requiredFeatures", "http://www.w3.org/TR/SVG11/feature#Extensibility")
-                    .attr('x', x_position)
-                    .attr('y', y_position)
-                    .attr('width', max_width)
-                    .attr('height', max_height)
+                    .attr('x', bounds.x)
+                    .attr('y', bounds.y)
+                    .attr('width', bounds.width)
+                    .attr('height', bounds.height)
                 ;
                 // insert an HTML div
                 var wrap_div = foreign_object
@@ -138,16 +137,16 @@ though – stay tuned!
                 ;			
                 // set div to same dimensions as foreign object
                 wrap_div
-                    .attr('height', max_height)
-                    .attr('width', max_width)
-                    .attr('style', 'padding:' + padding + 'px;')
+                    .attr('height', bounds.height)
+                    .attr('width', bounds.width)
+//                    .attr('style', 'padding:' + padding + 'px;')
                     // insert text content
                     .html(text_to_wrap)
                 ;
             }
 
             // wrap with tspans if foreignObject is undefined
-            function wrap_with_tspans(text_node) {
+            var wrap_with_tspans = function(text_node) {
                 console.log('wrapping with tspans');
                 // only fire the rest of this if the text content
                 // overflows the desired dimensions
