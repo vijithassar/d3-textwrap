@@ -32,8 +32,8 @@ though – stay tuned!
             } else {
                 var bounding_client_rect = bounds.node().getBoundingClientRect();
                 var bounds_extracted = {};
-                bounds_extracted.x = bounding_client_rect.left;
-                bounds_extracted.y = bounding_client_rect.top;
+                bounds_extracted.x = bounds.attr('x');
+                bounds_extracted.y = bounds.attr('y');
                 bounds_extracted.width = bounding_client_rect.width;
                 bounds_extracted.height = bounding_client_rect.height;
                 return bounds_extracted; // this doesn't actually do anything yet
