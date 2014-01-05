@@ -43,7 +43,7 @@ You might start with a single simple text node containing a text string.
 
 ```html
 <svg>
-    <text id="wrapme">All work and no play makes Vijith a dull boy</text>
+    <text id="wrapme">All work and no play makes Vijith a dull boy.</text>
 </svg>
 ```
 
@@ -73,7 +73,8 @@ But in Internet Explorer and any other browsers that can't handle foreignObjects
 <svg>
     <text id="wrapme">
         <tspan>All work and no play</tspan>
-        <tspan>makes Vijith a dull boy</tspan>
+        <tspan>makes Vijith a dull</tspan>
+        <tspan>boy.</tspan>
     </text>
 </svg>
 ```
