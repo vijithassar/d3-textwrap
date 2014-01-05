@@ -23,21 +23,80 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 
 -- 
 
-<h3>HOW TO USE</h3>
+<h3>INSTRUCTIONS</h3>
 
-1) Download the plugin and put it on your server somewhere.
-2) Load D3 in your HTML document, either <a href="http://d3js.org/d3.v3.min.js">remotely</a> or locally.
-<pre>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-</pre>
-3) After you've loaded D3, load the plugin.
-<pre>
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="http://plugin.script.url" charset="utf-8"></script>
-</pre>
+1) Download the plugin and put it on your server somewhere, because I'm not yet providing a hosted version of this.
+2) Load the D3 library as a script in your HTML document, either the version <a href="http://d3js.org/d3.v3.min.js">hosted remotely</a> or a copy you keep locally.
+```
+<html>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    ...
+</html>
+```
+3) <b>After you've loaded D3</b>, load the plugin.
+```
+<html>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://plugin.script.url" charset="utf-8"></script>
+    ...
+</html>
+```
+4) Figure out your wrapping boundaries. This can either be a D3 selection which points to a <rect> element in the SVG, which in many cases may be the easiest solution, or alternatively you can also provide a simple JavaScript object which contains the necessary positioning information.
+```
+<script>
+    var bounds = d3.select('rect#boundaries');
+    ...
+</script>
+```
+OR
+```
+<script>
+    var bounds = {
+        x = 300, // bounding box is 300 pixels from the left
+        y = 400, // bounding box is 400 pixels from the top
+        width = 500,
+        height = 600
+    }
+    ...
+</script>
+```
+5) Once you've defined your bounds, simply call the .textwrap() method on a D3 text selection pass them as an argument.
+```
+<script>
+    d3.select('text#wrapme').textwrap(bounds);
+    ...
+</script>
+```
 
---
+<h5>MISCELLANEOUS USAGE NOTES</h5>
 
-<h3>WITH MY SINCEREST REGRETS</h3>
+- Rectangular shapes only for now - no circles or wacky polygons at the moment.
+- This plugin can't yet calculate for rounded corners as specified by rx and ry radius attributs on a <rect>. You can still use this with rounded <rect> elements, but if you're not careful your text might bump into those corner boundaries.
+- In many cases it might make sense to create a <rect> to use as your boundary definition, but then make it invisible through styling. This is an easy way to add padding and margins, for example, since strictly speaking the SVG specification doesn't support them because there's no box model or document flow.
+```
+<svg>
+    <rect style="fill: none;" id="bounds">
+    ...
+</svg>
+```
+- In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a <g> group and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're zooming the <text> node around on the page by modifying its attributes directly it's not going to be able to successfully chase it around. In other words, do this:
 
-The logic here is correct and has been battle-tested in a high-traffic public D3 infographic project, but the current implementation is still broken because I haven't fully converted it from the initial idiosyncratic version into a more flexible plugin. That is, the code works, but I need to write a better wrapper for it in order to make it easier to use quickly as part of the regular D3 workflow. I'm working on it! In the meantime, feel free to holler at me at @vijithassar if you need help with this sort of thing.
+```
+<svg>
+    <g id="animateme">
+        <text id="donotanimateme">Text content to wrap</text>
+    </g>
+    ...
+</svg>
+```
+
+Not this:
+
+```
+<svg>
+    <text id="animateme">Text content to wrap</text>
+    ...
+</svg>
+```
+- You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Maybe try using a zoom effect via transforms instead, or hiding or adjusting the opacity of your text during the animation and then re-running the .textwrap() method with the updated bounds after the animation is complete.
+- <strong>With my sincerest regrets<strong>, the logic for text wrapping in Internet Explorer using <tspan> elements is correct and has been battle-tested in a high-traffic public D3 infographic project, but the current implementation is still broken because I haven't fully converted it from that initial idiosyncratic version into the plugin structure. That portion of the code totally works, and you're obviously free to pilfer it and paste it directly into your projects, but I'm still working on calling it via the .textwrap() method provided by this plugin.
