@@ -9,6 +9,10 @@ JavaScript plugin to enable automatic line wrapping in SVG images by using text,
 
 --
 
+<img src="https://raw.github.com/vijithassar/d3textwrap/master/textwrap-header-image.jpg">
+
+--
+
 <h3>IN A CONSIDERABLY LARGER NUTSHELL</h3>
 
 <a href="http://d3js.org">D3.js</a> is an amazing library which can be used to build interactive information and art projects with data sets, JavaScript code, and scalable vector graphics rendered in the web browser. But it faces a very big problem: SVG images do not support line-wrapped text. At all! I know, I know, that's hard to believe, but it's true. This means that it can be very difficult to display longish chunks of text in SVG-based D3 projects.
