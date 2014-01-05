@@ -13,6 +13,21 @@ eventual goal here, of course; stay tuned.
 
 (function() {
 
+    // exit immediately if this has already been defined
+    // as a function; the plugin will defer to whatever
+    // else you're doing in your code
+    if(typeof d3.selection.prototype.textwrap == 'function') {
+        return false;
+    }
+    
+    var force_wrap_method;
+    // set this variable to a string value to always force a particular
+    // wrap method for development purposes. set to 'tspan' to 
+    // use tspans and 'foreignobject' to use foreignobject
+    // force_wrap_method = 'tspans'; // uncomment statement to use tspans
+    // force_wrap_method = 'foreignobjects'; // uncomment statement to use foreignobjects
+    force_wrap_method = false; // by default no wrap method is forced
+
     // create the plugin method twice, both for regular use
     // and again for use inside the enter() selection
     d3.selection.prototype.textwrap = d3.selection.enter.prototype.textwrap = function(bounds) {
@@ -131,7 +146,7 @@ eventual goal here, of course; stay tuned.
             bounds = verified_bounds;
                      
             // wrap using html and foreignObjects if they are supported
-            var wrap_with_foreign_objects = function(item) {
+            var wrap_with_foreignobjects = function(item) {
                 console.log('wrapping with foreign object');
                 // establish variables to quickly reference target nodes later
                 var parent = d3.select(item[0].parentNode);
@@ -314,17 +329,33 @@ eventual goal here, of course; stay tuned.
                 }
             }
 
-            // test for browser support and then switch
-            // between the different text wrapping methods
-            var wrap_method;        
-            if(typeof SVGForeignObjectElement !== 'undefined') {
-                wrap_method = wrap_with_foreign_objects;
-            } else {
-                wrap_method = wrap_with_tspans;
+            // variable used to hold the functions that let us
+            // switch between the wrap methods
+            var wrap_method;
+
+            // if a wrap method if being forced, assign that
+            // function
+            if(force_wrap_method) {        
+                if(force_wrap_method == 'foreignobjects') {
+                    wrap_method = wrap_with_foreignobjects;
+                } else if (force_wrap_method == 'tspans') {
+                    wrap_method = wrap_with_tspans;
+                }
+            }
+
+            // if no wrap method is being forced, then instead
+            // test for browser support of foreignobject and
+            // use whichever wrap method makes sense accordingly
+            if(!force_wrap_method) {
+                if(typeof SVGForeignObjectElement !== 'undefined') {
+                    wrap_method = wrap_with_foreignobjects;
+                } else {
+                    wrap_method = wrap_with_tspans;
+                }
             }
                 
-            // run the wrap function for each item
-            // in the selection
+            // run the desired wrap function for each item
+            // in the d3 selection that called .textwrap()
             for(var i = 0; i < selection.length; i++) {
                 var item = selection[i];
                 wrap_method(item);
