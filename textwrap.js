@@ -16,7 +16,7 @@ eventual goal here, of course; stay tuned.
     // exit immediately if this has already been defined
     // as a function; the plugin will defer to whatever
     // else you're doing in your code
-    if(typeof d3.selection.prototype.textwrap == 'function') {
+    if(d3.selection.prototype.textwrap) {
         return false;
     }
     
