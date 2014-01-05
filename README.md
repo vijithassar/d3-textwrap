@@ -195,7 +195,7 @@ Not this:
 </svg>
 ```
 
-6) Similarly, note that in most cases the bounds should be subject to the same transforms as the text node. Doing otherwise isn't technically wrong or in any way prohibited, but can be a huge pain to position properly because the rect node and the text node are subject to different transforms.
+6) Similarly, note that in most cases the bounds should be subject to the same transforms as the text node. Doing otherwise isn't technically wrong or in any way prohibited, but can be a huge pain to position properly because the rect node and the text node are being moved around without really cooperating.
 
 ```html
 <svg>
