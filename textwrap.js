@@ -35,7 +35,9 @@ though – stay tuned!
                 bounds_extracted.y = d3.select(bounding_rect).attr('y') || 0;
                 bounds_extracted.width = d3.select(bounding_rect).attr('width') || 0;
                 bounds_extracted.height = d3.select(bounding_rect).attr('height') || 0;
-                return bounds_extracted; // this doesn't actually do anything yet
+                // also pass along the getter function
+                bounds_extracted.attr = bounds.attr;
+                return bounds_extracted;
             }
         }
 
@@ -43,6 +45,17 @@ though – stay tuned!
         // boundaries to make sure it actually contains all
         // the information we'll need in order to wrap successfully
         var verify_bounds = function(bounds) {   
+            // quickly add a simple getter method so you can use either
+            // bounds.x or bounds.attr('x') as your notation,
+            // the latter being a common convention among D3
+            // developers
+            if(!bounds.attr) {
+                bounds.attr = function(property) {
+                    if(this[property]) {
+                        return this[property];
+                    }
+                }
+            }
             // if it's an associative array, make sure it has all the
             // necessary properties represented directly
             if(
@@ -53,15 +66,6 @@ though – stay tuned!
                 (bounds.height)
                 // if that's the case, then the bounds are fine
             ) {
-                // add a simple getter method so you can use either
-                // bounds.x or bounds.attr('x') as your notation,
-                // the latter being a common convention among D3
-                // developers
-                bounds.attr = function(property) {
-                    if(this[property]) {
-                        return this[property];
-                    }
-                }
                 // return the lightly modified bounds
                 return bounds;
             // if it's a numerically indexed array, assume it's a
@@ -78,7 +82,8 @@ though – stay tuned!
             ) {
                 // once you're sure it's an array, extract the boundaries
                 // from the rect
-                return extract_bounds(bounds);
+                var extracted_bounds = extract_bounds(bounds);
+                return extracted_bounds;
             } else {
             // but if the bounds are neither an object nor a numerical 
             // array, then the bounds argument is invalid and you'll
@@ -86,6 +91,8 @@ though – stay tuned!
                 return false;
             }
         }
+        
+        var verified_bounds = verify_bounds(bounds);
 
         // check that we have the necessary conditions for this function to operate properly
         if(
@@ -96,7 +103,7 @@ though – stay tuned!
             // desired wrapping bounds must be provided as an input argument
             (!bounds) ||
             // input bounds must validate
-            (!verify_bounds(bounds))
+            (!verified_bounds)
         ) {   
             // try to return the calling selection if possible
             // so as not to interfere with methods downstream in the 
@@ -112,7 +119,14 @@ though – stay tuned!
         // if we've validated everything then we can finally proceed
         // to the meat of this operation
         } else {
- 
+        
+            // reassign the verified bounds as the set we want
+            // to work with from here on; this ensures that we're
+            // using the same data structure for our bounds regardless
+            // of whether the input argument was a simple object or
+            // a d3 selection
+            bounds = verified_bounds;
+                     
             // wrap using html and foreignObjects if they are supported
             var wrap_with_foreign_objects = function(item) {
                 console.log('wrapping with foreign object');
