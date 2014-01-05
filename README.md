@@ -146,6 +146,8 @@ OR
 </script>
 ```
 
+--
+
 <h5>MISCELLANEOUS USAGE NOTES</h5>
 
 - Rectangular shapes only for now - no circles or wacky polygons at the moment.
