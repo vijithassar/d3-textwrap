@@ -51,9 +51,18 @@ though – stay tuned!
                 (bounds.y) &&
                 (bounds.width) &&
                 (bounds.height)
+                // if that's the case, then the bounds are fine
             ) {
-                // if that's the case, then the bounds are fine and we
-                // can just return them
+                // add a simple getter method so you can use either
+                // bounds.x or bounds.attr('x') as your notation,
+                // the latter being a common convention among D3
+                // developers
+                bounds.attr = function(property) {
+                    if(this[property]) {
+                        return this[property];
+                    }
+                }
+                // return the lightly modified bounds
                 return bounds;
             // if it's a numerically indexed array, assume it's a
             // d3-selected rect and try to extract the positions
