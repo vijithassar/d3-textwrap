@@ -1,7 +1,9 @@
 d3textwrap
 ==========
 
-<h3>IN A NUTSHELL</h3>
+<h3>OVERVIEW</h3>
+
+<em>in a nutshell</em>
 
 JavaScript plugin to enable automatic line wrapping in SVG images by using text, tspan, and foreignObject elements, as well as computed character length calculations. Include after D3 and call textwrap() on any text node in order to magically line wrap long strings of text to your desired boundaries in the SVG - safe, clean, and cross-browser!
 
@@ -13,11 +15,13 @@ JavaScript plugin to enable automatic line wrapping in SVG images by using text,
 
 --
 
-<h3>IN A CONSIDERABLY LARGER NUTSHELL</h3>
+<h3>DESCRIPTION</h3>
+
+<em>in a somewhat larger nutshell</em>
 
 <a href="http://d3js.org">D3.js</a> is an amazing library which can be used to build interactive information and art projects with data sets, JavaScript code, and scalable vector graphics rendered in the web browser. But it faces a very big problem: SVG images do not support line-wrapped text. At all! I know, I know, that's hard to believe, but it's true. This means that it can be very difficult to display longish chunks of text in SVG-based D3 projects.
 
-To very quickly convey how annoying this can be, here's the project description from "In A Nutshell" section at the top of this page as it might appear in an SVG.
+To very quickly convey how annoying this can be, here's the project description from <a href="#overview">Overview section at the top of this page</a> as it might appear in an SVG.
 
 ```
 JavaScript plugin to enable automatic line wrapping in SVG images by using text, tspan, and foreignObject elements, as well as computed character length calculations. Include after D3 and call textwrap() on any text node in order to magically line wrap long strings of text to your desired boundaries in the SVG - safe, clean, and cross-browser!
@@ -37,9 +41,11 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 
 --
 
-<h3>AN ILLUSTRATIVE EXAMPLE</h3>
+<h3>QUICK START</h3>
 
-You might start with a single simple text node containing a text string.
+<em>if you already know D3</em>
+
+Begin with a single simple text node containing a text string.
 
 ```html
 <svg>
@@ -48,7 +54,7 @@ You might start with a single simple text node containing a text string.
 </svg>
 ```
 
-Then you'd run the plugin method; more on the bounds argument in the instructions below.
+Then select it and run the plugin's .textwrap() method; more on the bounds argument in the detailed instructions below.
 
 ```html
 <script type="text/javascript">
@@ -57,7 +63,7 @@ Then you'd run the plugin method; more on the bounds argument in the instruction
 </script>
 ```
 
-In most browsers, it'd be converted to a foreignObject rendering, so the text would automatically wrap to the dimensions of the div.
+In most browsers, the text node will be converted to a foreignObject rendering, so the text would automatically wrap to the dimensions of the div.
 
 ```html
 <svg>
@@ -70,7 +76,7 @@ In most browsers, it'd be converted to a foreignObject rendering, so the text wo
 <svg>
 ```
 
-But in Internet Explorer and any other browsers that can't handle foreignObjects, it'd switch to using tspan elements instead, with all the positioning headaches automatically solved.
+But in Internet Explorer and any other browsers that don't handle foreignObjects, the text node is retained and split into tspan subsections, with all the positioning headaches automatically solved.
 
 ```html
 <svg>
@@ -86,6 +92,8 @@ But in Internet Explorer and any other browsers that can't handle foreignObjects
 -- 
 
 <h3>INSTRUCTIONS</h3>
+
+<em>a detailed implementation guide</em>
 
 1) <a href="https://github.com/vijithassar/d3textwrap/archive/master.zip">Download the plugin</a>, unzip it, and put the textwrap.js file on your server somewhere. Make a note of the URL that points to the plugin, because you'll need it in step 3 below. (I'm not yet providing a hosted version of this, but you can use the <a href="https://raw.github.com/vijithassar/d3textwrap/master/textwrap.js">raw URL provided by GitHub</a> if you really want to. Do so at your own risk! Who knows, I might move or rename that file someday.)
 
@@ -158,7 +166,9 @@ If you're doing the latter, your bounds must be a simple JavaScript object (aka 
 
 --
 
-<h3>MISCELLANEOUS USAGE NOTES</h3>
+<h3>NOTES</h3>
+
+<em>miscellaneous tips and strategies</em>
 
 1) Rectangular shapes only for now - no circles or wacky polygons at the moment.
 
@@ -252,5 +262,6 @@ It can also be named:
 
 8) You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Instead, you might try using a zoom effect via transforms, or hiding or adjusting the opacity of your text during the animation and then re-running the .textwrap() method with the updated bounds after the animation is complete.
 
-<h3>WITH MY SINCEREST REGRETS</h3>
-The logic for text wrapping in Internet Explorer using tspan elements is still kinda broken here. That portion of the code totally works, and has even been battle-tested in a very high-traffic infographic project, but I haven't fully converted it from that initial idiosyncratic version into the plugin structure. You're obviously free to pilfer it and paste it directly into your projects if you need a solution ASAP, but I'm still working on calling that functionality via the .textwrap() method provided by this plugin. I'm aware that this part is basically the whole point of this thing existing in the first place! Please stay tuned, I'll put it all together soon enough...
+<h3>ERRATA</h3>
+
+<strong>With my sincerest regrets</strong>, the logic for text wrapping in Internet Explorer using tspan elements is still kinda broken here. That portion of the code totally works, and has even been battle-tested in a very high-traffic infographic project, but I haven't fully converted it from that initial idiosyncratic version into the plugin structure. You're obviously free to pilfer it and paste it directly into your projects if you need a solution ASAP, but I'm still working on calling that functionality via the .textwrap() method provided by this plugin. I'm aware that this part is basically the whole point of this thing existing in the first place! Please stay tuned, I'll put it all together soon enough...
