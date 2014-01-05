@@ -26,6 +26,7 @@ This plugin solves all the above problems. It first tests for foreignObject supp
 <h3>INSTRUCTIONS</h3>
 
 1) Download the plugin and put it on your server somewhere, because I'm not yet providing a hosted version of this.
+
 2) Load the D3 library as a script in your HTML document, either the version <a href="http://d3js.org/d3.v3.min.js">hosted remotely</a> or a copy you keep locally.
 ```html
 <html>
