@@ -77,7 +77,7 @@ OR
         y: 400, // bounding box is 400 pixels from the top
         width: 500, // bounding box is 500 pixels across
         height: 600 // bounding box is 600 pixels tall
-    }
+    };
     ...
 </script>
 ```
