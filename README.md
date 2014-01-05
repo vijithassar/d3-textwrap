@@ -92,6 +92,7 @@ OR
 - Rectangular shapes only for now - no circles or wacky polygons at the moment.
 - This plugin can't yet calculate for rounded corners as specified by rx and ry radius attributes on a rect element. You can still use this with rounded rect elements, but if you're not careful your text might bump into those corner boundaries.
 - In many cases it might make sense to create a rect to use as your boundary definition, but then make it invisible through styling. This is an easy way to add padding and margins, for example, since strictly speaking the SVG specification doesn't support them because there's no box model or document flow.
+
 ```html
 <svg>
     <rect style="fill: none;" id="bounds">
