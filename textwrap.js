@@ -44,7 +44,7 @@ though – stay tuned!
             }
             // if it's a numerically indexed array, assume it's a
             // d3-selected rect and try to extract the positions
-            else if(typeof bounds == 'array') {
+            else if(Object.prototype.toString.call( someVar ) === '[object Array]') {
                 return extract_bounds(bounds);
             // if it's neither an object nor a numerically indexed array,
             // then the bounds are clearly invalid and you should fix them.
