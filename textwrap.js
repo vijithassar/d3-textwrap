@@ -147,7 +147,6 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                      
             // wrap using html and foreignObjects if they are supported
             var wrap_with_foreignobjects = function(item) {
-                console.log('wrapping with foreign object');
                 // establish variables to quickly reference target nodes later
                 var parent = d3.select(item[0].parentNode);
                 var text_node = parent.selectAll('text');
@@ -185,7 +184,6 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 
             // wrap with tspans if foreignObject is undefined
             var wrap_with_tspans = function(item) {
-                console.log('wrapping with tspans');
                 // operate on the first text item in the selection
                 var text_node = item[0];	
                 var text_node_selected = d3.select(text_node);				
