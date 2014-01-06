@@ -284,4 +284,6 @@ After running the .textwrap() method, that instruction, if it's found, will be t
 </svg>
 ```
 
+(That's not a typo – the first tspan element should not have a dy attribute, <a href="https://github.com/vijithassar/d3textwrap#description">as discussed earlier</a>.)
+
 The plugin does not perform any such translation when rewriting as foreignObjects because they already contain HTML which you can style however you want using regular CSS.
