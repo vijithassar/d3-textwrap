@@ -13,13 +13,6 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 */
 
 (function() {
-
-    // exit immediately if this has already been defined
-    // as a function; the plugin will defer to whatever
-    // else you're doing in your code
-    if(d3.selection.prototype.textwrap) {
-        return false;
-    }
     
     // set this variable to a string value to always force a particular
     // wrap method for development purposes, for example to check tspan
@@ -29,6 +22,13 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
     // force_wrap_method = 'tspans'; // uncomment this statement to force tspans
     // force_wrap_method = 'foreignobjects'; // uncomment statement to force foreignobjects
     
+    // exit immediately if something in this location
+    // has already been defined; the plugin will defer to whatever
+    // else you're doing in your code
+    if(d3.selection.prototype.textwrap) {
+        return false;
+    }
+
     // double check the force_wrap_method flag
     // and reset if someone screwed up the above
     // settings

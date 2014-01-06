@@ -37,7 +37,7 @@ In other words, if you use the foreignObject approach you're screwed on Internet
 
 This plugin solves all the above problems. It first tests for foreignObject support and uses the simpler HTML option if it's available. If not, then it will fire a whole long sequence of tests to automatically split your text into whatever subsections will fit within the bounds you've specified, and then handles positioning of all the tspans for you. Safari gets foreignObjects, Internet Explorer gets tspans, all text wraps properly, and you get to go chill out and watch television instead of spending ages debugging this nonsense the way I did – I'm sort of a <em>Law & Order</em> junkie myself, but whatever floats your boat.
 
-This fixes one of the bugs I've found most annoying. Now let's get back to the fun stuff.
+This fixes one of the bugs I've found most annoying. Now let's get back to the fun stuff!
 
 --
 
@@ -297,6 +297,20 @@ After running the textwrap() method, that instruction, if it's found, will be tr
 
 (That's not a typo – the first tspan element should not have a dy attribute, <a href="https://github.com/vijithassar/d3textwrap#description">as discussed earlier</a>.)
 
-The plugin does not perform any such translation when rewriting as foreignObjects because they already contain HTML which you can style however you want using regular CSS.
+The plugin does not perform any such translation when rewriting as foreignObjects because they already contain HTML which you can style however you want using regular CSS. Translating the line-height rule from the text node to the foreignObject div in these scenarios would make it a lot easier to create CSS conflicts. A safer solution would be to add a second CSS rule on your own which applies the same line-height value to the foreignObject div.
 
 10) Because SVG does not have a box model, unlike with CSS the padding argument passed to textwrap() must be an integer representing the desired number of pixels (or, as discussed above, a dynamic function which returns an integer). If you really need to pad with a non-pixel value, try to apply that value somewhere else in the visualization, even on an element that's positioned off the screen, and then retrieve the computed pixel equivalence using by running <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-style">d3.selection.style()</a>.
+
+FOR DEVELOPERS
+
+It can be a pain to switch browsers just to test the different wrapping methods, so I've included a manual override for developers. If you open textwrap.js in a code editor, you'll find that the entire plugin is wrapped in a self-executing function. The first thing that function does is create a variable called force_wrap_method which can be used as a flag by developers to force tspans or foreignObjects. This lets you double check tspan rendering without switching computers. (Remember that tspans won't work properly in Safari and foreignObjects don't work properly in Internet Explorer, which is the whole reason you're using this plugin.) Before deployment you'll obviously want to turn this switch back off.
+
+```javascript
+force_wrap_method = false; // use browser detection; this is the default
+```
+```javascript
+force_wrap_method = 'tspans'; // always force tspans
+```
+```javascript
+force_wrap_method = 'foreignobjects'; // always force foreignobjects
+```
