@@ -187,19 +187,31 @@ eventual goal here, of course; stay tuned.
             // wrap with tspans if foreignObject is undefined
             var wrap_with_tspans = function(item) {
                 console.log('wrapping with tspans');
+                // operate on the first text item in the selection
+                var text_node = item[0];	
+                var text_node_selected = d3.select(text_node);				
+                // figure out the line height, either from rendered height
+                // of the font or attached styling
+                var line_height;
+                var rendered_line_height = text_node.getBBox().height;
+                var styled_line_height = text_node_selected.style('line-height');
+                if(
+                    (styled_line_height) &&
+                    (parseInt(styled_line_height))
+                ) {
+                    line_height = styled_line_height;
+                } else {
+                    line_height = rendered_line_height;
+                }
                 // only fire the rest of this if the text content
                 // overflows the desired dimensions
-                if(item[0].getBBox().width > bounds.width) {
-                    // assign input item to text_node variable
-                    var text_node = item;
+                if(text_node.getBBox().width > bounds.width) {
                     // store whatever is inside the text node 
                     // in a variable and then zero out the 
                     // initial content; we'll reinsert in a moment
                     // using tspan elements.
-                    var text_node = d3.select(this);					
-                    var text_to_wrap = text_node.text();
-                    text_node.text('');
-                
+                    var text_to_wrap = text_node_selected.text();
+                    text_node_selected.text('');
                     if(text_to_wrap) {
                         // split at spaces to create an array of individual words
                         var text_to_wrap_array;
@@ -236,8 +248,8 @@ eventual goal here, of course; stay tuned.
                         // of the string against the maximum desired wrapping width
                         for(var i = 0; i < text_to_wrap_array.length; i++) {
                             var word = text_to_wrap_array[i];
-                            var previous_string = text_node.text();
-                            var previous_width = this.getComputedTextLength();
+                            var previous_string = text_node_selected.text();
+                            var previous_width = text_node.getComputedTextLength();
                             // initialize the current word as the first word
                             // or append to the previous string if one exists
                             var new_string;
@@ -248,8 +260,8 @@ eventual goal here, of course; stay tuned.
                             }
                             // add the newest substring back to the text node and
                             // measure the length
-                            text_node.text(new_string);
-                            var new_width = this.getComputedTextLength();
+                            text_node_selected.text(new_string);
+                            var new_width = text_node.getComputedTextLength();
                             // adjust the length by the offset we've tracked
                             // due to the misreported length discussed above
                             var test_width = new_width - offset;
@@ -258,13 +270,13 @@ eventual goal here, of course; stay tuned.
                             // version of the string (without the newest word
                             // added) and use the latest word to restart the
                             // process with a new tspan
-                            if(test_width > max_width) {
+                            if(test_width > bounds.width) {
                                 if(previous_string !== '') {
                                     var temp = {string: previous_string, width: previous_width - offset};
                                     substrings.push(temp);
                                     offset = offset + previous_width;
-                                    text_node.text('');
-                                    text_node.text(word);
+                                    text_node_selected.text('');
+                                    text_node_selected.text(word);
                                 }
                             }
                             // if we're up to the last word in the array,
@@ -280,7 +292,7 @@ eventual goal here, of course; stay tuned.
                                     if((new_width - offset) > 0) {new_width = new_width - offset}
                                     var temp = {string: final_string, width: new_width};
                                     substrings.push(temp);
-                                    text_node.text('');
+                                    text_node_selected.text('');
                                 }
                             } 
                         }
@@ -300,15 +312,13 @@ eventual goal here, of course; stay tuned.
                             if(i > 0) {
                                 var previous_substring = substrings_clean[i - 1];
                             }
-                            current_tspan = text_node.append('tspan')
+                            current_tspan = text_node_selected.append('tspan')
                                 .text(substring)
                             ;
                             current_tspan
                                 .attr('dy', function(d) {
                                     if(i > 0) {
-                                        // line height shouldn't be hard coded
-                                        // will fix this later
-                                        return '1.5em';
+                                        return line_height;
                                     }
                                 })
                             ;
