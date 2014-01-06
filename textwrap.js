@@ -31,11 +31,14 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 
     // create the plugin method twice, both for regular use
     // and again for use inside the enter() selection
-    d3.selection.prototype.textwrap = d3.selection.enter.prototype.textwrap = function(bounds) {
+    d3.selection.prototype.textwrap = d3.selection.enter.prototype.textwrap = function(bounds, padding) {
     
         // save callee into a variable so we can continue to refer to it 
         // as the function scope changes
         var selection = this;
+        
+        // if no padding value is provided, set it to 0
+        var padding = padding || 0;
         
         // extract wrap boundaries from any d3-selected rect and return them
         // in a format that matches the simpler object argument option
@@ -50,10 +53,10 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
             // if it's a rect, proceed to extracting the position attributes
             } else {
                 var bounds_extracted = {};
-                bounds_extracted.x = d3.select(bounding_rect).attr('x') || 0;
-                bounds_extracted.y = d3.select(bounding_rect).attr('y') || 0;
-                bounds_extracted.width = d3.select(bounding_rect).attr('width') || 0;
-                bounds_extracted.height = d3.select(bounding_rect).attr('height') || 0;
+                bounds_extracted.x = d3.select(bounding_rect).attr('x') + padding;
+                bounds_extracted.y = d3.select(bounding_rect).attr('y') + padding;
+                bounds_extracted.width = d3.select(bounding_rect).attr('width') - padding * 2;
+                bounds_extracted.height = d3.select(bounding_rect).attr('height') - padding * 2;
                 // also pass along the getter function
                 bounds_extracted.attr = bounds.attr;
                 return bounds_extracted;
@@ -83,9 +86,14 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 (bounds.y) &&
                 (bounds.width) &&
                 (bounds.height)
-                // if that's the case, then the bounds are fine
             ) {
-                // return the lightly modified bounds
+                // if that's the case, then the bounds are fine
+                // and you can transform them with the padding value
+                bounds.x += padding;
+                bounds.y += padding;
+                bounds.width -= padding * 2;
+                bounds.height -= padding * 2;
+                // return the modified bounds
                 return bounds;
             // if it's a numerically indexed array, assume it's a
             // d3-selected rect and try to extract the positions
@@ -174,6 +182,10 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                     // arguments
                     .attr('class', 'wrapped')
                 ;			
+                // apply padding as inline style if the parameter was provided
+                if(padding) {
+                    wrap_div.style('padding', padding);
+                }
                 // set div to same dimensions as foreign object
                 wrap_div
                     .style('height', bounds.height)
@@ -200,7 +212,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                     (styled_line_height) &&
                     (parseInt(styled_line_height))
                 ) {
-                    line_height = styled_line_height.replace('px', '');
+                    line_height = parseInt(styled_line_height.replace('px', ''));
                 } else {
                     line_height = rendered_line_height;
                 }
@@ -317,7 +329,20 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 
                         // shift the entire text node down by the line height so that
                         // the first line is within the bounds
-                        text_node_selected.attr('y', line_height);
+                        text_node_selected.attr('y', function() {
+                            var y_offset = 0;
+                            if(line_height) {
+                                y_offset += line_height;
+                            } 
+                            if(padding) {
+                                if(padding > line_height) {
+                                    y_offset += (padding - line_height);
+                                } else {
+                                    y_offset = line_height;
+                                }
+                            }
+                            return y_offset;
+                        });
                         
                         // append each substring as a tspan					
                         var current_tspan;
@@ -327,7 +352,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                             if(i > 0) {
                                 var previous_substring = substrings[i - 1];
                             }
-                            if((i) * line_height < bounds.height - (line_height * 1.5)) {
+                            if((i) * line_height + padding < bounds.height - (line_height * 1.5) - padding) {
                                 current_tspan = text_node_selected.append('tspan')
                                     .text(substring)
                                 ;
@@ -341,13 +366,18 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                                 // shift left from default position, which 
                                 // is probably based on the full length of the
                                 // text string until we make this adjustment
+                                var render_offset = 0;
                                 current_tspan
                                     .attr('dx', function() {
                                         if(i == 0) {
-                                            var render_offset = 0;
+                                            render_offset = padding;
                                         } else if(i > 0) {
                                             render_offset = substrings[i - 1].width;
                                             render_offset = render_offset * -1;
+                                        }
+                                        if(
+                                            (padding)
+                                        ) {
                                         }
                                         return render_offset;
                                     })

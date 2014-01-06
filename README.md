@@ -162,6 +162,14 @@ If you're doing the latter, your bounds must be a simple JavaScript object (aka 
 </script>
 ```
 
+7) You can also pass in an optional second argument which provides a padding value. This must be in pixels; em and percent values aren't supported at the moment.
+```html
+<script type="text/javascript">
+    d3.select('text#wrapme').textwrap(bounds, 25);
+    ...
+</script>
+```
+
 --
 
 <h3>NOTES</h3>
