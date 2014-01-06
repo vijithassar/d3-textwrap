@@ -178,12 +178,12 @@ If you're doing the latter, your bounds must be a simple JavaScript object (aka 
 
 ```html
 <svg>
-    <rect style="fill: none;" id="bounds">
+    <rect style="fill: none; stroke: none;" id="bounds">
     ...
 </svg>
 ```
 
-5) In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a g element and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're moving the text node around on the page by modifying its attributes directly it's not going to be able to successfully chase it around. In other words, do this:
+5) In order to do animations or elaborate positioning transformations with text that is also line wrapped, you'll probably need to put your text inside a g element and transform that instead. This plugin plays nice with animations if they're handled by upstream transform attributes, but if you're moving the text node around on the page by modifying its attributes directly the plugin probably is not going to be able to successfully chase it around. In other words, you should do this:
 
 ```html
 <svg>
@@ -194,7 +194,7 @@ If you're doing the latter, your bounds must be a simple JavaScript object (aka 
 </svg>
 ```
 
-Not this:
+You should not do this:
 
 ```html
 <svg>
