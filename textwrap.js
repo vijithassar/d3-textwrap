@@ -26,7 +26,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
     // rendering using a foreignobject-enabled browser. set to 'tspan' to 
     // use tspans and 'foreignobject' to use foreignobject
     // var force_wrap_method = false; // by default no wrap method is forced
-    // force_wrap_method = 'tspans'; // uncomment this statement to force tspans
+    force_wrap_method = 'tspans'; // uncomment this statement to force tspans
     // force_wrap_method = 'foreignobjects'; // uncomment statement to force foreignobjects
 
     // create the plugin method twice, both for regular use
