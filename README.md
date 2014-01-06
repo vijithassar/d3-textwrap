@@ -301,16 +301,22 @@ The plugin does not perform any such translation when rewriting as foreignObject
 
 10) Because SVG does not have a box model, unlike with CSS the padding argument passed to textwrap() must be an integer representing the desired number of pixels (or, as discussed above, a dynamic function which returns an integer). If you really need to pad with a non-pixel value, try to apply that value somewhere else in the visualization, even on an element that's positioned off the screen, and then retrieve the computed pixel equivalence using by running <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-style">d3.selection.style()</a>.
 
-FOR DEVELOPERS
+<h3>FOR DEVELOPERS</h3>
 
 It can be a pain to switch browsers just to test the different wrapping methods, so I've included a manual override for developers. If you open textwrap.js in a code editor, you'll find that the entire plugin is wrapped in a self-executing function. The first thing that function does is create a variable called force_wrap_method which can be used as a flag by developers to force tspans or foreignObjects. This lets you double check tspan rendering without switching computers. (Remember that tspans won't work properly in Safari and foreignObjects don't work properly in Internet Explorer, which is the whole reason you're using this plugin.) Before deployment you'll obviously want to turn this switch back off.
 
 ```javascript
 force_wrap_method = false; // use browser detection; this is the default
 ```
+
+OR
+
 ```javascript
 force_wrap_method = 'tspans'; // always force tspans
 ```
+
+OR 
+
 ```javascript
 force_wrap_method = 'foreignobjects'; // always force foreignobjects
 ```
