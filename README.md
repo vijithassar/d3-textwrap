@@ -162,7 +162,7 @@ If you're doing the latter, your bounds must be a simple JavaScript object (aka 
 </script>
 ```
 
-7) You can also pass the textwrap() method an optional second argument to control the padding you'd like applied inside the bounds you've defined. This is passed separately from the bounds argument to allow you to apply padding even when your bounds are a d3 rect selection. Because SVG does not have a box model, unlike with CSS this padding must be an integer representing the desired number of pixels (or, as discussed above, a dynamic function which returns an integer).
+7) You can also pass the textwrap() method an optional second argument to control the padding you'd like applied inside the bounds you've defined. This is passed separately from the bounds argument to allow you to apply padding even when your bounds are a d3 rect selection. It must be an integer representing the number of desired padding pixels.
 
 ```html
 <script type="text/javascript">
@@ -296,3 +296,5 @@ After running the textwrap() method, that instruction, if it's found, will be tr
 (That's not a typo – the first tspan element should not have a dy attribute, <a href="https://github.com/vijithassar/d3textwrap#description">as discussed earlier</a>.)
 
 The plugin does not perform any such translation when rewriting as foreignObjects because they already contain HTML which you can style however you want using regular CSS.
+
+10) Because SVG does not have a box model, unlike with CSS the padding argument passed to textwrap() must be an integer representing the desired number of pixels (or, as discussed above, a dynamic function which returns an integer). If you really need to pad with a non-pixel value, try to apply that value somewhere else in the visualization, even on an element that's positioned off the screen, and then retrieve the computed pixel equivalence using by running <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-style">d3.selection.style()</a>.
