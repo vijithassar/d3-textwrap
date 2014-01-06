@@ -26,8 +26,15 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
     // rendering using a foreignobject-enabled browser. set to 'tspan' to 
     // use tspans and 'foreignobject' to use foreignobject
     // var force_wrap_method = false; // by default no wrap method is forced
-    force_wrap_method = 'tspans'; // uncomment this statement to force tspans
+    // force_wrap_method = 'tspans'; // uncomment this statement to force tspans
     // force_wrap_method = 'foreignobjects'; // uncomment statement to force foreignobjects
+    
+    // double check the force_wrap_method flag
+    // and reset if someone screwed up the above
+    // settings
+    if(typeof force_wrap_method == 'undefined') {   
+        var force_wrap_method = false;
+    }
 
     // create the plugin method twice, both for regular use
     // and again for use inside the enter() selection
@@ -79,17 +86,17 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
             // necessary properties represented directly
             if(
                 (typeof bounds == 'object') &&
-                (bounds.x) &&
-                (bounds.y) &&
-                (bounds.width) &&
-                (bounds.height)
+                (typeof bounds.x !== 'undefined') &&
+                (typeof bounds.y !== 'undefined') &&
+                (typeof bounds.width !== 'undefined') &&
+                (typeof bounds.height !== 'undefined')
                 // if that's the case, then the bounds are fine
             ) {
                 // return the lightly modified bounds
                 return bounds;
             // if it's a numerically indexed array, assume it's a
             // d3-selected rect and try to extract the positions
-            } else if(
+            } else if (
                     // first try to make sure it's an array using Array.isArray
                     (
                         (typeof Array.isArray == 'function') &&
@@ -111,6 +118,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
             }
         }
         
+        // verify bounds
         var verified_bounds = verify_bounds(bounds);
 
         // check that we have the necessary conditions for this function to operate properly
