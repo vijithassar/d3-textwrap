@@ -8,6 +8,8 @@ http://www.github.com/vijithassar
 
 Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 
+(Yes, the semicolon syntax here is unusual – feel free to minify it away...)
+
 */
 
 (function() {
