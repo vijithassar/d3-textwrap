@@ -190,10 +190,13 @@ eventual goal here, of course; stay tuned.
                 // operate on the first text item in the selection
                 var text_node = item[0];	
                 var text_node_selected = d3.select(text_node);				
+                // measure initial size of the text node as rendered
+                var text_node_height = text_node.getBBox().height;
+                var text_node_width = text_node.getBBox().width;
                 // figure out the line height, either from rendered height
                 // of the font or attached styling
                 var line_height;
-                var rendered_line_height = text_node.getBBox().height;
+                var rendered_line_height = text_node_height;
                 var styled_line_height = text_node_selected.style('line-height');
                 if(
                     (styled_line_height) &&
@@ -205,7 +208,7 @@ eventual goal here, of course; stay tuned.
                 }
                 // only fire the rest of this if the text content
                 // overflows the desired dimensions
-                if(text_node.getBBox().width > bounds.width) {
+                if(text_node_width > bounds.width) {
                     // store whatever is inside the text node 
                     // in a variable and then zero out the 
                     // initial content; we'll reinsert in a moment
@@ -213,23 +216,36 @@ eventual goal here, of course; stay tuned.
                     var text_to_wrap = text_node_selected.text();
                     text_node_selected.text('');
                     if(text_to_wrap) {
+                        // keep track of whether we are splitting by spaces
+                        // so we know whether to reinsert those spaces later
+                        var break_delimiter;
                         // split at spaces to create an array of individual words
                         var text_to_wrap_array;
                         if(text_to_wrap.indexOf(' ') !== -1) {
+                            var break_delimiter = ' ';
                             text_to_wrap_array = text_to_wrap.split(' ');
                         } else {
-                            // if there are no spaces, chop it in half.
-                            // this is a hack! better to apply
-                            // CSS word-break: break-all in order
-                            // to handle long single-word strings that
-                            // might overflow without spaces. will fix to
-                            // dynamically compute the appropriate number
-                            // of cuts later.
+                            // if there are no spaces, figure out the split
+                            // points by comparing rendered text width against
+                            // bounds and translating that into character position
+                            // cuts
+                            break_delimiter = '';
                             var string_length = text_to_wrap.length;
-                            var midpoint = parseInt(string_length / 2);
-                            var first_half = text_to_wrap.substr(0, midpoint);
-                            var second_half = text_to_wrap.substr(midpoint, string_length);
-                            text_to_wrap_array = [first_half, second_half];
+                            var number_of_substrings = Math.ceil(text_node_width / bounds.width);
+                            var splice_interval = Math.floor(string_length / number_of_substrings);
+                            if(
+                                !(splice_interval * number_of_substrings >= string_length)
+                            ) {
+                                number_of_substrings++;
+                            }
+                            var text_to_wrap_array = [];
+                            var substring;
+                            var start_position;
+                            for(var i = 0; i < number_of_substrings; i++) {
+                                start_position = i * splice_interval;
+                                substring = text_to_wrap.substr(start_position, splice_interval);    
+                                text_to_wrap_array.push(substring);
+                            }
                         }
                     
                         // new array where we'll store the words re-assembled into
@@ -243,7 +259,9 @@ eventual goal here, of course; stay tuned.
                         // previous tspans and substrings, and then use that to offset
                         // the miscalculation. this then gives us the actual correct
                         // position we want to use in rendering the text in the SVG.
-                        var offset = 0;
+                        var total_offset = 0;
+                        // object for storing the results of text length computations later
+                        var temp = {};
                         // loop through the words and test the computed text length
                         // of the string against the maximum desired wrapping width
                         for(var i = 0; i < text_to_wrap_array.length; i++) {
@@ -254,7 +272,7 @@ eventual goal here, of course; stay tuned.
                             // or append to the previous string if one exists
                             var new_string;
                             if(previous_string) {
-                                new_string = previous_string + ' ' + word;
+                                new_string = previous_string + break_delimiter + word;
                             } else {
                                 new_string = word;
                             }
@@ -264,53 +282,58 @@ eventual goal here, of course; stay tuned.
                             var new_width = text_node.getComputedTextLength();
                             // adjust the length by the offset we've tracked
                             // due to the misreported length discussed above
-                            var test_width = new_width - offset;
+                            var test_width = new_width - total_offset;
                             // if our latest version of the string is too 
                             // big for the bounds, use the previous
                             // version of the string (without the newest word
                             // added) and use the latest word to restart the
                             // process with a new tspan
-                            if(test_width > bounds.width) {
-                                if(previous_string !== '') {
-                                    var temp = {string: previous_string, width: previous_width - offset};
+                            if(new_width > bounds.width) {
+                                if(
+                                    (previous_string) &&
+                                    (previous_string !== '')
+                                ) {
+                                    total_offset = total_offset + previous_width;
+                                    temp = {string: previous_string, width: new_width, offset: total_offset};
                                     substrings.push(temp);
-                                    offset = offset + previous_width;
                                     text_node_selected.text('');
                                     text_node_selected.text(word);
                                 }
                             }
                             // if we're up to the last word in the array,
                             // get the computed length as is without
-                            // appending anything
-                            if(i == text_to_wrap_array.length - 1) {
-                                var final_string = new_string.substr(previous_string.length);
-                                // remove leading spaces if present
-                                if(final_string.substr(0, 1) == ' ') {
-                                    final_string = final_string.substr(1);
-                                }
-                                if(final_string !== '') {
-                                    if((new_width - offset) > 0) {new_width = new_width - offset}
-                                    var temp = {string: final_string, width: new_width};
+                            // appending anything further to it
+                            else if(i == text_to_wrap_array.length - 1) {
+                                var final_string = new_string;
+                                if(
+                                    (final_string) &&
+                                    (final_string !== '')
+                                ) {
+                                    if((new_width - total_offset) > 0) {new_width = new_width - total_offset}
+                                    temp = {string: final_string, width: new_width, offset: total_offset};
                                     substrings.push(temp);
                                     text_node_selected.text('');
                                 }
                             } 
                         }
-                        // double check that there are no empty substrings
-                        // because those would create blank tspans
-                        var substrings_clean = [];
+                        
+                        // debugger function
                         for(var i = 0; i < substrings.length; i++) {
-                            if(substrings[i].string.length > 0) {
-                                substrings_clean.push(substrings[i]);
-                            }
+                            temp = substrings[i];
+                            console.log(temp.string + ' ' + '[' + temp.width + '/' + temp.offset + ']');
                         }
+                        
+                        // shift the entire text node down by the line height so that
+                        // the first line is within the bounds
+                        text_node_selected.attr('y', line_height);
+                        
                         // append each substring as a tspan					
                         var current_tspan;
                         var tspan_count;
-                        for(var i = 0; i < substrings_clean.length; i++) {
-                            var substring = substrings_clean[i].string;
+                        for(var i = 0; i < substrings.length; i++) {
+                            var substring = substrings[i].string;
                             if(i > 0) {
-                                var previous_substring = substrings_clean[i - 1];
+                                var previous_substring = substrings[i - 1];
                             }
                             current_tspan = text_node_selected.append('tspan')
                                 .text(substring)
@@ -329,12 +352,11 @@ eventual goal here, of course; stay tuned.
                                 .attr('dx', function() {
                                     var render_offset = 0;
                                     if(i > 0) {
-                                        render_offset = 0;
-                                        for(var j = 0; j < i; j++) {
-                                            render_offset += substrings[j].width;
-                                        }
+//                                         for(var j = 0; j < i; j++) {
+//                                             render_offset += substrings[j].width;
+//                                         }
                                     }
-                                    return render_offset * -1;
+                                    return render_offset;
                                 })
                             ;
                         }
