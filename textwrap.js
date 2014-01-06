@@ -329,6 +329,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                             // get the computed length as is without
                             // appending anything further to it
                             else if(i == text_to_wrap_array.length - 1) {
+                                text_node_selected.text('');
                                 var final_string = new_string;
                                 if(
                                     (final_string) &&
@@ -337,7 +338,6 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                                     if((new_width - total_offset) > 0) {new_width = new_width - total_offset}
                                     temp = {string: final_string, width: new_width, offset: total_offset};
                                     substrings.push(temp);
-                                    text_node_selected.text('');
                                 }
                             } 
                         }
@@ -345,7 +345,9 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                         // position the overall text node
                         text_node_selected.attr('y', function() {
                             var y_offset = 0;
-                            // shift by line_height to move the baseline into bounds
+                            // shift by line-height to move the baseline into
+                            // the bounds – otherwise the text baseline would be
+                            // at the top of the bounds
                             if(line_height) {y_offset += line_height;}
                             // shift by padding, if it's there
                             if(padding) {y_offset += padding;}
@@ -361,15 +363,21 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                         // append each substring as a tspan					
                         var current_tspan;
                         var tspan_count;
+                        // double check that the text content has been removed
+                        // before we start appending tspans
+                        text_node_selected.text('');
                         for(var i = 0; i < substrings.length; i++) {
                             var substring = substrings[i].string;
                             if(i > 0) {
                                 var previous_substring = substrings[i - 1];
                             }
+                            // only append if we're sure it won't make the tspans
+                            // overflow the bounds.
                             if((i) * line_height < bounds.height - (line_height * 1.5)) {
                                 current_tspan = text_node_selected.append('tspan')
                                     .text(substring)
                                 ;
+                                // vertical shift to all tspans after the first one
                                 current_tspan
                                     .attr('dy', function(d) {
                                         if(i > 0) {
