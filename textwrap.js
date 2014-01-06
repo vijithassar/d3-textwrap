@@ -25,7 +25,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
     // wrap method for development purposes, for example to check tspan
     // rendering using a foreignobject-enabled browser. set to 'tspan' to 
     // use tspans and 'foreignobject' to use foreignobject
-    var force_wrap_method = false; // by default no wrap method is forced
+    // var force_wrap_method = false; // by default no wrap method is forced
     // force_wrap_method = 'tspans'; // uncomment this statement to force tspans
     // force_wrap_method = 'foreignobjects'; // uncomment statement to force foreignobjects
 
@@ -327,7 +327,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                             if(i > 0) {
                                 var previous_substring = substrings[i - 1];
                             }
-                            if((i + 1) * line_height < bounds.height) {
+                            if((i) * line_height < bounds.height - (line_height * 1.5)) {
                                 current_tspan = text_node_selected.append('tspan')
                                     .text(substring)
                                 ;
