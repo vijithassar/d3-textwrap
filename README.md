@@ -52,7 +52,7 @@ Begin with a single simple text node containing a text string.
 </svg>
 ```
 
-Then select it and run the plugin's .textwrap() method; more on the bounds argument in the detailed instructions below.
+Then select it and run the plugin's textwrap() method; more on the bounds argument in the detailed instructions below.
 
 ```html
 <script type="text/javascript">
@@ -154,10 +154,19 @@ OR
 
 If you're doing the latter, your bounds must be a simple JavaScript object (aka associative array) with properties (aka keys) for x, y, width, and height, each of which contains an integer value.
 
-6) Once you've defined your bounds, simply call the .textwrap() method on a D3 text selection and pass them as an argument.
+6) Once you've defined your bounds, simply call the textwrap() method on a D3 text selection and pass them as an argument.
 ```html
 <script type="text/javascript">
     d3.select('text#wrapme').textwrap(bounds);
+    ...
+</script>
+```
+
+7) You can also pass the textwrap() method an optional second argument to control the padding you'd like applied inside the bounds you've defined. This is passed separately from the bounds argument to allow you to apply padding even when your bounds are a d3 rect selection. Because SVG does not have a box model, unlike with CSS this padding must be an integer representing the desired number of pixels (or, as discussed above, a dynamic function which returns an integer).
+
+```html
+<script type="text/javascript">
+    d3.select('text#wrapme').textwrap(bounds, 50);
     ...
 </script>
 ```
@@ -231,7 +240,7 @@ Instead, just place your bounds within the same transforms as the text.
 
 This is also true when your bounds argument is a simple associative array – that is, the integer values in the array should work within the context established by upstream transforms from higher up in the DOM.
 
-7) Just like anything else in D3, the bounds argument can actually be a function instead of a variable. The argument function can either select and return a D3 rect, or assemble and return an associative array. This is an easy way to run a single .textwrap() method on many text selections at once.
+7) Just like anything else in D3, the bounds argument can actually be a function instead of a variable. The argument function can either select and return a D3 rect, or assemble and return an associative array. This is an easy way to run a single textwrap() method on many text selections at once.
 
 It can be inline and anonymous:
 
@@ -258,7 +267,7 @@ It can also be named:
 </script>
 ```
 
-8) You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Instead, you might try using a zoom effect via transforms, or hiding or adjusting the opacity of your text during the animation and then re-running the .textwrap() method with the updated bounds after the animation is complete.
+8) You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Instead, you might try using a zoom effect via transforms, or hiding or adjusting the opacity of your text during the animation and then re-running the textwrap() method with the updated bounds after the animation is complete.
 
 9) A word about line spacing:
 
@@ -271,7 +280,7 @@ When rendering tspans, the plugin checks the computed styles looking for line-he
 </svg>
 ```
 
-After running the .textwrap() method, that instruction, if it's found, will be translated into tspan vertical positioning via the dy attribute. I'm actually not entirely sure whether this is a pixel-perfect match to the measurements that would be rendered by the same statement if applied via CSS, but it should be pretty close.
+After running the textwrap() method, that instruction, if it's found, will be translated into tspan vertical positioning via the dy attribute. I'm actually not entirely sure whether this is a pixel-perfect match to the measurements that would be rendered by the same statement if applied via CSS, but it should be pretty close.
 
 ```html
 <svg>

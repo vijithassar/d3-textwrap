@@ -25,7 +25,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
     // wrap method for development purposes, for example to check tspan
     // rendering using a foreignobject-enabled browser. set to 'tspan' to 
     // use tspans and 'foreignobject' to use foreignobject
-    // var force_wrap_method = false; // by default no wrap method is forced
+    var force_wrap_method = false; // by default no wrap method is forced
     // force_wrap_method = 'tspans'; // uncomment this statement to force tspans
     // force_wrap_method = 'foreignobjects'; // uncomment statement to force foreignobjects
     
@@ -38,7 +38,10 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 
     // create the plugin method twice, both for regular use
     // and again for use inside the enter() selection
-    d3.selection.prototype.textwrap = d3.selection.enter.prototype.textwrap = function(bounds) {
+    d3.selection.prototype.textwrap = d3.selection.enter.prototype.textwrap = function(bounds, padding) {
+    
+        // default value of padding is zero if it's undefined
+        var padding = parseInt(padding) || 0;
     
         // save callee into a variable so we can continue to refer to it 
         // as the function scope changes
@@ -63,8 +66,8 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 bounds_extracted.height = d3.select(bounding_rect).attr('height') || 0;
                 // also pass along the getter function
                 bounds_extracted.attr = bounds.attr;
-                return bounds_extracted;
             }
+            return bounds_extracted;
         }
 
         // double check the input argument for the wrapping
@@ -118,9 +121,27 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
             }
         }
         
+        var apply_padding = function(bounds, padding) {
+            console.log(bounds);
+            console.log(padding);
+            var padded_bounds = bounds;
+            if(padding !== 0) {
+                padded_bounds.x += padding;
+                padded_bounds.y += padding;
+                padded_bounds.width -= padding * 2;
+                padded_bounds.height -= padding * 2;
+            }
+            return padded_bounds;
+        }
+        
         // verify bounds
         var verified_bounds = verify_bounds(bounds);
-
+        
+        // modify bounds if a padding value is provided
+        if(padding) {
+            verified_bounds = apply_padding(verified_bounds, padding);
+        }
+       
         // check that we have the necessary conditions for this function to operate properly
         if(
             // selection it's operating on cannot be not empty
@@ -208,7 +229,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                     (styled_line_height) &&
                     (parseInt(styled_line_height))
                 ) {
-                    line_height = styled_line_height.replace('px', '');
+                    line_height = parseInt(styled_line_height.replace('px', ''));
                 } else {
                     line_height = rendered_line_height;
                 }
@@ -323,9 +344,21 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                             } 
                         }
 
-                        // shift the entire text node down by the line height so that
-                        // the first line is within the bounds
-                        text_node_selected.attr('y', line_height);
+                        // position the overall text node
+                        text_node_selected.attr('y', function() {
+                            var y_offset = 0;
+                            // shift by line_height to move the baseline into bounds
+                            if(line_height) {y_offset += line_height;}
+                            // shift by padding, if it's there
+                            if(padding) {y_offset += padding;}
+                            return y_offset;
+                        });
+                        // shift to the right by the padding value
+                        if(padding) {
+                            text_node_selected
+                                .attr('x', padding)
+                            ;
+                        }
                         
                         // append each substring as a tspan					
                         var current_tspan;
