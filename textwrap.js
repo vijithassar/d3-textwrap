@@ -25,9 +25,9 @@ eventual goal here, of course; stay tuned.
     // wrap method for development purposes, for example to check tspan
     // rendering using a foreignobject-enabled browser. set to 'tspan' to 
     // use tspans and 'foreignobject' to use foreignobject
-    // force_wrap_method = 'tspans'; // uncomment statement to use tspans
+    force_wrap_method = 'tspans'; // uncomment statement to use tspans
     // force_wrap_method = 'foreignobjects'; // uncomment statement to use foreignobjects
-    force_wrap_method = false; // by default no wrap method is forced
+    // force_wrap_method = false; // by default no wrap method is forced
 
     // create the plugin method twice, both for regular use
     // and again for use inside the enter() selection
@@ -185,11 +185,13 @@ eventual goal here, of course; stay tuned.
             }
 
             // wrap with tspans if foreignObject is undefined
-            var wrap_with_tspans = function(text_node) {
+            var wrap_with_tspans = function(item) {
                 console.log('wrapping with tspans');
                 // only fire the rest of this if the text content
                 // overflows the desired dimensions
-                if(this.getBBox().width > max_width) {
+                if(item[0].getBBox().width > bounds.width) {
+                    // assign input item to text_node variable
+                    var text_node = item;
                     // store whatever is inside the text node 
                     // in a variable and then zero out the 
                     // initial content; we'll reinsert in a moment
@@ -318,7 +320,7 @@ eventual goal here, of course; stay tuned.
                                     var render_offset = 0;
                                     if(i > 0) {
                                         render_offset = 0;
-                                        for(j = 0; j < i; j++) {
+                                        for(var j = 0; j < i; j++) {
                                             render_offset += substrings[j].width;
                                         }
                                     }
