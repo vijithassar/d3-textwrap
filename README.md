@@ -37,6 +37,8 @@ In other words, if you use the foreignObject approach you're screwed on Internet
 
 This plugin solves all the above problems. It first tests for foreignObject support and uses the simpler HTML option if it's available. If not, then it will fire a whole long sequence of tests to automatically split your text into whatever subsections will fit within the bounds you've specified, and then handles positioning of all the tspans for you. Safari gets foreignObjects, Internet Explorer gets tspans, all text wraps properly, and you get to go chill out and watch television instead of spending ages debugging this nonsense the way I did – I'm sort of a <em>Law & Order</em> junkie myself, but whatever floats your boat.
 
+This fixes one of the bugs I've found most annoying. Now let's get back to the fun stuff.
+
 --
 
 <h3>QUICK START</h3>
