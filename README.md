@@ -211,7 +211,7 @@ Doing otherwise isn't technically wrong or in any way prohibited, but can be a h
 <svg>
     <rect id="bounds">
     <g transform="translate(100,200)">
-        <text id="donotanimateme">Text content to wrap</text>
+        <text id="wrapme">Text content to wrap</text>
     </g>
     ...
 </svg>
@@ -223,7 +223,7 @@ Instead, just place your bounds within the same transforms as the text.
 <svg>
     <g transform="translate(100,200)">
         <rect id="bounds">
-        <text id="donotanimateme">Text content to wrap</text>
+        <text id="wrapme">Text content to wrap</text>
     </g>
     ...
 </svg>
