@@ -122,8 +122,6 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
         }
         
         var apply_padding = function(bounds, padding) {
-            console.log(bounds);
-            console.log(padding);
             var padded_bounds = bounds;
             if(padding !== 0) {
                 padded_bounds.x += padding;
