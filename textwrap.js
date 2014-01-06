@@ -1,13 +1,12 @@
 /* 
 
-Note: At this time the plugin wrapper for this code is still under development.
-It works with browsers that support foreignObject, but the logic for handling 
-tspans in Internet Explorer and other browsers that don't support foreignObject
-has not yet been refactored for the D3 plugin format. That code will work if
-carefully transplanted to other projects, and you're welcome to harvest it and
-apply it in that manner, but it can't yet simply be applied to a selection by
-calling d3.textwrap(). I know that's kind of the whole point! That is the
-eventual goal here, of course; stay tuned.
+D3 Text Wrap
+By Vijith Assar
+http://www.vijithassar.com
+http://www.github.com/vijithassar
+@vijithassar
+
+Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 
 */
 
@@ -25,9 +24,9 @@ eventual goal here, of course; stay tuned.
     // wrap method for development purposes, for example to check tspan
     // rendering using a foreignobject-enabled browser. set to 'tspan' to 
     // use tspans and 'foreignobject' to use foreignobject
-    force_wrap_method = 'tspans'; // uncomment statement to use tspans
+    // force_wrap_method = 'tspans'; // uncomment statement to use tspans
     // force_wrap_method = 'foreignobjects'; // uncomment statement to use foreignobjects
-    // force_wrap_method = false; // by default no wrap method is forced
+    force_wrap_method = false; // by default no wrap method is forced
 
     // create the plugin method twice, both for regular use
     // and again for use inside the enter() selection
@@ -294,7 +293,7 @@ eventual goal here, of course; stay tuned.
                                     (previous_string !== '')
                                 ) {
                                     total_offset = total_offset + previous_width;
-                                    temp = {string: previous_string, width: new_width, offset: total_offset};
+                                    temp = {string: previous_string, width: previous_width, offset: total_offset};
                                     substrings.push(temp);
                                     text_node_selected.text('');
                                     text_node_selected.text(word);
@@ -316,13 +315,7 @@ eventual goal here, of course; stay tuned.
                                 }
                             } 
                         }
-                        
-                        // debugger function
-                        for(var i = 0; i < substrings.length; i++) {
-                            temp = substrings[i];
-                            console.log(temp.string + ' ' + '[' + temp.width + '/' + temp.offset + ']');
-                        }
-                        
+
                         // shift the entire text node down by the line height so that
                         // the first line is within the bounds
                         text_node_selected.attr('y', line_height);
@@ -350,11 +343,11 @@ eventual goal here, of course; stay tuned.
                             // text string until we make this adjustment
                             current_tspan
                                 .attr('dx', function() {
-                                    var render_offset = 0;
-                                    if(i > 0) {
-//                                         for(var j = 0; j < i; j++) {
-//                                             render_offset += substrings[j].width;
-//                                         }
+                                    if(i == 0) {
+                                        var render_offset = 0;
+                                    } else if(i > 0) {
+                                        render_offset = substrings[i - 1].width;
+                                        render_offset = render_offset * -1;
                                     }
                                     return render_offset;
                                 })
@@ -399,5 +392,5 @@ eventual goal here, of course; stay tuned.
         }
 		
     }
-	
+    	
 })();
