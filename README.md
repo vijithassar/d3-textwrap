@@ -266,7 +266,7 @@ When rendering tspans, the plugin checks the computed styles looking for line-he
 
 ```html
 <svg>
-    <text id="wrapme" style="line-height: 3em">All work and no play makes Vijith a dull boy.</text>
+    <text id="wrapme" style="line-height: 3em;">All work and no play makes Vijith a dull boy.</text>
     ...
 </svg>
 ```
