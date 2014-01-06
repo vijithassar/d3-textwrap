@@ -259,3 +259,29 @@ It can also be named:
 ```
 
 8) You can't currently animate the width of wrapped text. Or, well, you can, but the wrap boundaries won't necessarily respond – that would require pinging the DOM upon each successive animation tick to retrieve the newly updated boundary size and would probably be horribly inefficient. Even if it did support that, text that's continually reflowing to fit inside boundaries where the width is animating would look weird and would make for a super distracting user interface. Instead, you might try using a zoom effect via transforms, or hiding or adjusting the opacity of your text during the animation and then re-running the .textwrap() method with the updated bounds after the animation is complete.
+
+9) A word about line spacing:
+
+When rendering tspans, the plugin checks the computed styles looking for line-height statements, either inline as an attribute or from an external stylesheet. Ordinarily this wouldn't accomplish anything, because the text node would always render on one line.
+
+```html
+<svg>
+    <text id="wrapme" style="line-height: 3em">All work and no play makes Vijith a dull boy.</text>
+    ...
+</svg>
+```
+
+But after running the .textwrap() method, that statement will be translated into tspan vertical positioning via the dy attribute if it's found. I'm actually not entirely sure whether this is a pixel-perfect match to the measurements that would be rendered by the same statement CSS, but it should be pretty close.
+
+```html
+<svg>
+    <text id="wrapme">
+        <tspan>All work and no play</tspan>
+        <tspan dy="3em">makes Vijith a dull</tspan>
+        <tspan dy="3em">boy.</tspan>
+    </text>
+    ...
+</svg>
+```
+
+The plugin does not perform any such translation when rewriting as foreignObjects because they already contain HTML which you can style however you want using regular CSS.
