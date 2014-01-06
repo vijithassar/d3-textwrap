@@ -327,7 +327,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                             if(i > 0) {
                                 var previous_substring = substrings[i - 1];
                             }
-                            if((i + 1) * line_height < bounds.height) {
+                            if((i) * line_height < bounds.height - (line_height * 1.5)) {
                                 current_tspan = text_node_selected.append('tspan')
                                     .text(substring)
                                 ;
