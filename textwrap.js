@@ -328,30 +328,32 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                             if(i > 0) {
                                 var previous_substring = substrings[i - 1];
                             }
-                            current_tspan = text_node_selected.append('tspan')
-                                .text(substring)
-                            ;
-                            current_tspan
-                                .attr('dy', function(d) {
-                                    if(i > 0) {
-                                        return line_height;
-                                    }
-                                })
-                            ;
-                            // shift left from default position, which 
-                            // is probably based on the full length of the
-                            // text string until we make this adjustment
-                            current_tspan
-                                .attr('dx', function() {
-                                    if(i == 0) {
-                                        var render_offset = 0;
-                                    } else if(i > 0) {
-                                        render_offset = substrings[i - 1].width;
-                                        render_offset = render_offset * -1;
-                                    }
-                                    return render_offset;
-                                })
-                            ;
+                            if(i * line_height < bounds.height) {
+                                current_tspan = text_node_selected.append('tspan')
+                                    .text(substring)
+                                ;
+                                current_tspan
+                                    .attr('dy', function(d) {
+                                        if(i > 0) {
+                                            return line_height;
+                                        }
+                                    })
+                                ;
+                                // shift left from default position, which 
+                                // is probably based on the full length of the
+                                // text string until we make this adjustment
+                                current_tspan
+                                    .attr('dx', function() {
+                                        if(i == 0) {
+                                            var render_offset = 0;
+                                        } else if(i > 0) {
+                                            render_offset = substrings[i - 1].width;
+                                            render_offset = render_offset * -1;
+                                        }
+                                        return render_offset;
+                                    })
+                                ;
+                            }
                         }
                     }
                 }
