@@ -19,14 +19,13 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
         return false;
     }
     
-    var force_wrap_method;
     // set this variable to a string value to always force a particular
     // wrap method for development purposes, for example to check tspan
     // rendering using a foreignobject-enabled browser. set to 'tspan' to 
     // use tspans and 'foreignobject' to use foreignobject
-    // force_wrap_method = 'tspans'; // uncomment statement to use tspans
-    // force_wrap_method = 'foreignobjects'; // uncomment statement to use foreignobjects
-    force_wrap_method = false; // by default no wrap method is forced
+    var force_wrap_method = false; // by default no wrap method is forced
+    // force_wrap_method = 'tspans'; // uncomment this statement to force tspans
+    // force_wrap_method = 'foreignobjects'; // uncomment statement to force foreignobjects
 
     // create the plugin method twice, both for regular use
     // and again for use inside the enter() selection
@@ -199,7 +198,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                     (styled_line_height) &&
                     (parseInt(styled_line_height))
                 ) {
-                    line_height = styled_line_height;
+                    line_height = styled_line_height.replace('px', '');
                 } else {
                     line_height = rendered_line_height;
                 }
