@@ -130,7 +130,7 @@ OR
     ...
 </html>
 ```
-5) The plugin needs to know where and when you want the text wrapping breaks to occur, so you need to define your wrapping boundaries and send them to it. The boundaries can be provided either be a D3 selection which points to a rect element in the SVG, which in many cases may be the easiest solution, or alternatively as a simple JavaScript object which contains the necessary positioning information.
+5) The plugin needs to know where and when you want the text wrapping breaks to occur, so you need to define your wrapping boundaries and send them to it. The boundaries can be provided either as D3 selection which points to a rect element in the SVG, which in many cases may be the easiest solution, or alternatively as a simple JavaScript object which contains the necessary positioning information.
 ```html
 <script type="text/javascript">
     var bounds = d3.select('rect#desired-wrapping-boundaries');
