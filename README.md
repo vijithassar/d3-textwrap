@@ -271,7 +271,7 @@ When rendering tspans, the plugin checks the computed styles looking for line-he
 </svg>
 ```
 
-But after running the .textwrap() method, that statement will be translated into tspan vertical positioning via the dy attribute if it's found. I'm actually not entirely sure whether this is a pixel-perfect match to the measurements that would be rendered by the same statement CSS, but it should be pretty close.
+After running the .textwrap() method, that instruction, if it's found, will be translated into tspan vertical positioning via the dy attribute. I'm actually not entirely sure whether this is a pixel-perfect match to the measurements that would be rendered by the same statement if applied via CSS, but it should be pretty close.
 
 ```html
 <svg>
