@@ -20,7 +20,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
     // use tspans and 'foreignobject' to use foreignobject
     var force_wrap_method = false; // by default no wrap method is forced
     // force_wrap_method = 'tspans'; // uncomment this statement to force tspans
-    // force_wrap_method = 'foreignobjects'; // uncomment statement to force foreignobjects
+    // force_wrap_method = 'foreignobjects'; // uncomment this statement to force foreignobjects
     
     // exit immediately if something in this location
     // has already been defined; the plugin will defer to whatever
