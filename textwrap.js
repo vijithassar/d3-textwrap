@@ -172,12 +172,13 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
             // of whether the input argument was a simple object or
             // a d3 selection
             bounds = verified_bounds;
-                     
+                                 
             // wrap using html and foreignObjects if they are supported
             var wrap_with_foreignobjects = function(item) {
                 // establish variables to quickly reference target nodes later
                 var parent = d3.select(item[0].parentNode);
-                var text_node = parent.selectAll('text');
+                var text_node = parent.select('text');
+                var styled_line_height = text_node.style('line-height');
                 // extract our desired content from the single text element
                 var text_to_wrap = text_node.text();
                 // remove the text node and replace with a foreign object
@@ -208,6 +209,9 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                     // insert text content
                     .html(text_to_wrap)
                 ;
+                if(styled_line_height) {
+                    wrap_div.style('line-height', styled_line_height);
+                }
             }
 
             // wrap with tspans if foreignObject is undefined

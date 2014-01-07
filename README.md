@@ -297,7 +297,7 @@ After running the textwrap() method, that instruction, if it's found, will be tr
 
 (That's not a typo – the first tspan element should not have a dy attribute, <a href="https://github.com/vijithassar/d3textwrap#description">as discussed earlier</a>.)
 
-The plugin does not perform any such translation when rewriting as foreignObjects because they already contain HTML which you can style however you want using regular CSS. Translating the line-height rule from the text node to the foreignObject div in these scenarios would make it a lot easier to create CSS conflicts. A safer solution would be to add a second CSS rule on your own which applies the same line-height value to the foreignObject div.
+The plugin performs the same translation when rewriting as foreignObjects if it finds a line-height attribute applied to the text node, but you can override this using <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-classed">d3's .classed() method</a>, and once the conversion is complete you can style the div however you want using CSS.
 
 10) Because SVG does not have a box model, unlike with CSS the padding argument passed to textwrap() must be an integer representing the desired number of pixels (or, as discussed above, a dynamic function which returns an integer). If you really need to pad with a non-pixel value, try to apply that value somewhere else in the visualization, even on an element that's positioned off the screen, and then retrieve the computed pixel equivalence using by running <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-style">d3.selection.style()</a>.
 
