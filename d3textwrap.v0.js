@@ -47,6 +47,9 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
         // as the function scope changes
         var selection = this;
         
+        // create a variable to store desired return values in
+        var return_value;
+        
         // extract wrap boundaries from any d3-selected rect and return them
         // in a format that matches the simpler object argument option
         var extract_bounds = function(bounds) {
@@ -217,7 +220,8 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
             // wrap with tspans if foreignObject is undefined
             var wrap_with_tspans = function(item) {
                 // operate on the first text item in the selection
-                var text_node = item[0];	
+                var text_node = item[0];
+                var parent = text_node.parentNode;	
                 var text_node_selected = d3.select(text_node);				
                 // measure initial size of the text node as rendered
                 var text_node_height = text_node.getBBox().height;
@@ -407,6 +411,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                         }
                     }
                 }
+                return_value = d3.select(parent).selectAll('text');
             }
 
             // variable used to hold the functions that let us
@@ -440,6 +445,8 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 var item = selection[i];
                 wrap_method(item);
             }
+            
+            return return_value;
         
         }
 		
