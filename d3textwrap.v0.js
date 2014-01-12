@@ -215,6 +215,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 if(styled_line_height) {
                     wrap_div.style('line-height', styled_line_height);
                 }
+                return_value = parent.select('foreignObject');
             }
 
             // wrap with tspans if foreignObject is undefined
@@ -411,6 +412,8 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                         }
                     }
                 }
+                // assign our modified text node with tspans
+                // to the return value
                 return_value = d3.select(parent).selectAll('text');
             }
 
@@ -446,6 +449,8 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 wrap_method(item);
             }
             
+            // return the modified nodes so we can chain other
+            // methods to them.
             return return_value;
         
         }

@@ -301,6 +301,27 @@ The plugin performs the same translation when rewriting as foreignObjects if it 
 
 10) Because SVG does not have a box model, unlike with CSS the padding argument passed to textwrap() must be an integer representing the desired number of pixels (or, as discussed above, a dynamic function which returns an integer). If you really need to pad with a non-pixel value, try to apply that value somewhere else in the visualization, even on an element that's positioned off the screen, and then retrieve the computed pixel equivalence using by running <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-style">d3.selection.style()</a>.
 
+11) Return values are as expected for each wrapping method, which actually may complicate the use of downstream methods a bit depending on what exactly you're trying to do. In browsers without foreignObject support, tspan wrapping happens inside the original text node, so in that case the textwrap() method returns that same text node after the modifications are in place. In browsers with foreignObject support, the text node is removed entirely and replaced with a foreignObject element, and in that case the textwrap() method returns the foreignObject. But once that happens, you can't always call the same methods after textwrap() because text elements may not support the same attributes as foreignObject elements.
+
+For example, the remove() method will work regardless of whether textwrap() is operating through tspans or foreignObject elements, because remove() applies to any element in the DOM.
+
+```html
+<script type="text/javascript">
+d3.select('text').textwrap(bounds).remove();
+</script>
+</html>
+```
+
+However, foreignObject does not support CSS – that needs to be applied to <em>the div inside the foreignObject</em> – so this works in tspan mode but do anything in foreignObject mode:
+
+```html
+<script type="text/javascript">
+d3.select('text').textwrap(bounds).style('fill', 'white');
+</script>
+```
+
+To compensate for this discrepancy, you should navigate around the value returned by the textwrap() method and apply methods that are incompatible with foreignObject, most notably including styling, to a parent element such as g.
+
 <h3>FOR DEVELOPERS</h3>
 
 It can be a pain to switch browsers just to test the different wrapping methods, so I've included a manual override for developers. If you open textwrap.js in a code editor, you'll find that the entire plugin is wrapped in a self-executing function. The first thing that function does is create a variable called force_wrap_method which can be used as a flag by developers to force tspans or foreignObjects. This lets you double check tspan rendering without switching computers. (Remember that tspans won't work properly in Safari and foreignObjects don't work properly in Internet Explorer, which is the whole reason you're using this plugin.) Before deployment you'll obviously want to turn this switch back off.
