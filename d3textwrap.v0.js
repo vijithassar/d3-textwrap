@@ -8,7 +8,7 @@ http://www.github.com/vijithassar
 
 Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 
-(Yes, the semicolon syntax here is unusual – feel free to minify it away...)
+(Yes, the semicolon syntax here is unusual to enforce strict open/close structure – feel free to minify it away...)
 
 */
 
