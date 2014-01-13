@@ -95,7 +95,7 @@ But in Internet Explorer and any other browsers that don't handle foreignObjects
 
 <em>a detailed implementation guide</em>
 
-1) <a href="https://github.com/vijithassar/d3textwrap/archive/master.zip">Download the plugin</a>, unzip it, and put the JavaScript file on your server somewhere. Make a note of the URL that points to the plugin, because you'll need it in step 3 below. (I'm not yet providing a hosted version of this, but you can use the <a href="https://raw.github.com/vijithassar/d3textwrap/master/textwrap.js">raw URL provided by GitHub</a> if you really want to. Do so at your own risk! Who knows, I might move or rename that file someday.)
+1) <a href="https://github.com/vijithassar/d3textwrap/archive/master.zip">Download the plugin</a>, unzip it, and put the JavaScript file on your server somewhere. Make a note of the URL that points to the plugin, because you'll need it in step 3 below. (I'm not yet providing a hosted version of this, but you can use the <a href="https://raw.github.com/vijithassar/d3textwrap/master/d3textwrap.v0.js">raw URL provided by GitHub</a> if you really want to. Do so at your own risk! Who knows, I might move or rename that file someday.)
 
 2) Load the D3 library as a script in your HTML document, either the version <a href="http://d3js.org/d3.v3.min.js">hosted remotely</a> or a copy you keep locally.
 ```html
@@ -324,7 +324,7 @@ To compensate for this discrepancy, you should navigate around the value returne
 
 <h3>FOR DEVELOPERS</h3>
 
-It can be a pain to switch browsers just to test the different wrapping methods, so I've included a manual override for developers. If you open textwrap.js in a code editor, you'll find that the entire plugin is wrapped in a self-executing function. The first thing that function does is create a variable called force_wrap_method which can be used as a flag by developers to force tspans or foreignObjects. This lets you double check tspan rendering without switching computers. (Remember that tspans won't work properly in Safari and foreignObjects don't work properly in Internet Explorer, which is the whole reason you're using this plugin.) Before deployment you'll obviously want to turn this switch back off.
+It can be a pain to switch browsers just to test the different wrapping methods, so I've included a manual override for developers. If you open the plugin file in a code editor, you'll find that the entire plugin is wrapped in a self-executing function. The first thing that function does is create a variable called force_wrap_method which can be used as a flag by developers to force tspans or foreignObjects. This lets you double check tspan rendering without switching computers. (Remember that tspans won't work properly in Safari and foreignObjects don't work properly in Internet Explorer, which is the whole reason you're using this plugin.) Before deployment you'll obviously want to turn this switch back off.
 
 ```javascript
 force_wrap_method = false; // use browser detection; this is the default
