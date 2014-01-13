@@ -95,7 +95,7 @@ But in Internet Explorer and any other browsers that don't handle foreignObjects
 
 <em>a detailed implementation guide</em>
 
-1) <a href="https://github.com/vijithassar/d3textwrap/archive/master.zip">Download the plugin</a>, unzip it, and put the textwrap.js file on your server somewhere. Make a note of the URL that points to the plugin, because you'll need it in step 3 below. (I'm not yet providing a hosted version of this, but you can use the <a href="https://raw.github.com/vijithassar/d3textwrap/master/textwrap.js">raw URL provided by GitHub</a> if you really want to. Do so at your own risk! Who knows, I might move or rename that file someday.)
+1) <a href="https://github.com/vijithassar/d3textwrap/archive/master.zip">Download the plugin</a>, unzip it, and put the JavaScript file on your server somewhere. Make a note of the URL that points to the plugin, because you'll need it in step 3 below. (I'm not yet providing a hosted version of this, but you can use the <a href="https://raw.github.com/vijithassar/d3textwrap/master/textwrap.js">raw URL provided by GitHub</a> if you really want to. Do so at your own risk! Who knows, I might move or rename that file someday.)
 
 2) Load the D3 library as a script in your HTML document, either the version <a href="http://d3js.org/d3.v3.min.js">hosted remotely</a> or a copy you keep locally.
 ```html
@@ -297,9 +297,9 @@ After running the textwrap() method, that instruction, if it's found, will be tr
 
 (That's not a typo – the first tspan element should not have a dy attribute, <a href="https://github.com/vijithassar/d3textwrap#description">as discussed earlier</a>.)
 
-The plugin performs the same translation when rewriting as foreignObjects if it finds a line-height attribute applied to the text node, but you can override this using <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-classed">d3's .classed() method</a>, and once the conversion is complete you can style the div however you want using CSS.
+The plugin performs the same translation when rewriting as foreignObjects if it finds a line-height attribute applied to the text node, but you can override this using <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-style">d3's style() method</a>, and once the conversion is complete you can style the div however you want using CSS.
 
-10) Because SVG does not have a box model, unlike with CSS the padding argument passed to textwrap() must be an integer representing the desired number of pixels (or, as discussed above, a dynamic function which returns an integer). If you really need to pad with a non-pixel value, try to apply that value somewhere else in the visualization, even on an element that's positioned off the screen, and then retrieve the computed pixel equivalence using by running <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-style">d3.selection.style()</a>.
+10) Because SVG does not have a box model which can easily translate different CSS units, unlike with CSS the padding argument passed to textwrap() must be an integer representing the desired number of pixels (or, as discussed above, a dynamic function which returns an integer). If you really need to pad with a non-pixel value, try to apply that value somewhere else in the visualization, even on an element that's positioned off the screen, and then retrieve the computed pixel equivalence using by running <a href="https://github.com/mbostock/d3/wiki/Selections#wiki-style">d3's style() method</a>.
 
 11) Return values are as expected for each wrapping method, which actually may complicate the use of downstream methods a bit depending on what exactly you're trying to do. In browsers without foreignObject support, tspan wrapping happens inside the original text node, so in that case the textwrap() method returns that same text node after the modifications are in place. In browsers with foreignObject support, the text node is removed entirely and replaced with a foreignObject element, and in that case the textwrap() method returns the foreignObject. But once that happens, you can't always call the same methods after textwrap() because text elements may not support the same attributes as foreignObject elements.
 
@@ -320,7 +320,7 @@ d3.select('text').textwrap(bounds).style('fill', 'white');
 </script>
 ```
 
-To compensate for this discrepancy, you should navigate around the value returned by the textwrap() method and apply methods that are incompatible with foreignObject, most notably including styling, to a parent element such as g.
+To compensate for this discrepancy, you should navigate around the value returned by the textwrap() method and apply methods that are incompatible with foreignObject, most notably including styling, either up the DOM to a parent element such as g or down to the div inside the foreignObject.
 
 <h3>FOR DEVELOPERS</h3>
 
