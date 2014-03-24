@@ -8,8 +8,6 @@ http://www.github.com/vijithassar
 
 Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 
-(Yes, the semicolon syntax here is unusual to enforce strict open/close structure – feel free to minify it away...)
-
 */
 
 (function() {
@@ -193,8 +191,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                     .attr('x', bounds.x)
                     .attr('y', bounds.y)
                     .attr('width', bounds.width)
-                    .attr('height', bounds.height)
-                ;
+                    .attr('height', bounds.height);
                 // insert an HTML div
                 var wrap_div = foreign_object
                     .append('xhtml:div')
@@ -203,15 +200,13 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                     // override using .classed() and for now
                     // it's nice to avoid a litany of input
                     // arguments
-                    .attr('class', 'wrapped')
-                ;			
+                    .attr('class', 'wrapped');			
                 // set div to same dimensions as foreign object
                 wrap_div
                     .style('height', bounds.height)
                     .style('width', bounds.width)
                     // insert text content
-                    .html(text_to_wrap)
-                ;
+                    .html(text_to_wrap);
                 if(styled_line_height) {
                     wrap_div.style('line-height', styled_line_height);
                 }
@@ -384,16 +379,14 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                             // overflow the bounds.
                             if((i) * line_height < bounds.height - (line_height * 1.5)) {
                                 current_tspan = text_node_selected.append('tspan')
-                                    .text(substring)
-                                ;
+                                    .text(substring);
                                 // vertical shift to all tspans after the first one
                                 current_tspan
                                     .attr('dy', function(d) {
                                         if(i > 0) {
                                             return line_height;
                                         }
-                                    })
-                                ;
+                                    });
                                 // shift left from default position, which 
                                 // is probably based on the full length of the
                                 // text string until we make this adjustment
@@ -406,8 +399,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                                             render_offset = render_offset * -1;
                                         }
                                         return render_offset;
-                                    })
-                                ;
+                                    });
                             }
                         }
                     }
