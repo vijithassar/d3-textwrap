@@ -7,7 +7,7 @@ d3textwrap
 
 JavaScript plugin to enable automatic line wrapping in SVG images by using text, tspan, and foreignObject elements, as well as computed character length calculations. Include after D3 and call textwrap() on any text node in order to magically line wrap long strings of text to your desired boundaries in the SVG – safe, clean, and cross-browser!
 
-<a href="http://bl.ocks.org/vijithassar/8278587">live demonstration</a>
+<a href="http://bl.ocks.org/vijithassar/8278587">live demonstration</a>, thanks to <a href="http://bl.ocks.org">bl.ocks</a> and <a href="http://rawgithub.com">rawgithub</a>
 
 <img src="https://raw.github.com/vijithassar/d3textwrap/master/header-image.jpg">
 
