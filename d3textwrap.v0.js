@@ -1,4 +1,4 @@
-/* 
+/*
 
 D3 Text Wrap
 By Vijith Assar
@@ -14,7 +14,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
     
     // set this variable to a string value to always force a particular
     // wrap method for development purposes, for example to check tspan
-    // rendering using a foreignobject-enabled browser. set to 'tspan' to 
+    // rendering using a foreignobject-enabled browser. set to 'tspan' to
     // use tspans and 'foreignobject' to use foreignobject
     var force_wrap_method = false; // by default no wrap method is forced
     // force_wrap_method = 'tspans'; // uncomment this statement to force tspans
@@ -30,7 +30,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
     // double check the force_wrap_method flag
     // and reset if someone screwed up the above
     // settings
-    if(typeof force_wrap_method == 'undefined') {   
+    if(typeof force_wrap_method == 'undefined') {
         var force_wrap_method = false;
     }
 
@@ -41,7 +41,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
         // default value of padding is zero if it's undefined
         var padding = parseInt(padding) || 0;
     
-        // save callee into a variable so we can continue to refer to it 
+        // save callee into a variable so we can continue to refer to it
         // as the function scope changes
         var selection = this;
         
@@ -74,7 +74,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
         // double check the input argument for the wrapping
         // boundaries to make sure it actually contains all
         // the information we'll need in order to wrap successfully
-        var verify_bounds = function(bounds) {   
+        var verify_bounds = function(bounds) {
             // quickly add a simple getter method so you can use either
             // bounds.x or bounds.attr('x') as your notation,
             // the latter being a common convention among D3
@@ -105,7 +105,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                     (
                         (typeof Array.isArray == 'function') &&
                         (Array.isArray(bounds))
-                    ) || 
+                    ) ||
                     // but since Array.isArray isn't always supported, fall
                     // back to casting to the object to string when it's not
                     (Object.prototype.toString.call(bounds) === '[object Array]')
@@ -115,7 +115,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 var extracted_bounds = extract_bounds(bounds);
                 return extracted_bounds;
             } else {
-            // but if the bounds are neither an object nor a numerical 
+            // but if the bounds are neither an object nor a numerical
             // array, then the bounds argument is invalid and you'll
             // need to fix it
                 return false;
@@ -125,11 +125,12 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
         var apply_padding = function(bounds, padding) {
             var padded_bounds = bounds;
             if(padding !== 0) {
-                padded_bounds.x += padding;
-                padded_bounds.y += padding;
+                padded_bounds.x = parseInt(padded_bounds.x) + padding;
+                padded_bounds.y = parseInt(padded_bounds.y) + padding;
                 padded_bounds.width -= padding * 2;
                 padded_bounds.height -= padding * 2;
             }
+            console.log(padded_bounds)
             return padded_bounds;
         }
         
@@ -151,9 +152,9 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
             (!bounds) ||
             // input bounds must validate
             (!verified_bounds)
-        ) {   
+        ) {
             // try to return the calling selection if possible
-            // so as not to interfere with methods downstream in the 
+            // so as not to interfere with methods downstream in the
             // chain
             if(selection) {
                 return selection;
@@ -196,11 +197,11 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 var wrap_div = foreign_object
                     .append('xhtml:div')
                     // this class is currently hardcoded
-                    // probably not necessary but easy to 
+                    // probably not necessary but easy to
                     // override using .classed() and for now
                     // it's nice to avoid a litany of input
                     // arguments
-                    .attr('class', 'wrapped');			
+                    .attr('class', 'wrapped');
                 // set div to same dimensions as foreign object
                 wrap_div
                     .style('height', bounds.height)
@@ -217,8 +218,8 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
             var wrap_with_tspans = function(item) {
                 // operate on the first text item in the selection
                 var text_node = item[0];
-                var parent = text_node.parentNode;	
-                var text_node_selected = d3.select(text_node);				
+                var parent = text_node.parentNode;
+                var text_node_selected = d3.select(text_node);
                 // measure initial size of the text node as rendered
                 var text_node_height = text_node.getBBox().height;
                 var text_node_width = text_node.getBBox().width;
@@ -238,8 +239,8 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 // only fire the rest of this if the text content
                 // overflows the desired dimensions
                 if(text_node_width > bounds.width) {
-                    // store whatever is inside the text node 
-                    // in a variable and then zero out the 
+                    // store whatever is inside the text node
+                    // in a variable and then zero out the
                     // initial content; we'll reinsert in a moment
                     // using tspan elements.
                     var text_to_wrap = text_node_selected.text();
@@ -272,7 +273,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                             var start_position;
                             for(var i = 0; i < number_of_substrings; i++) {
                                 start_position = i * splice_interval;
-                                substring = text_to_wrap.substr(start_position, splice_interval);    
+                                substring = text_to_wrap.substr(start_position, splice_interval);
                                 text_to_wrap_array.push(substring);
                             }
                         }
@@ -312,7 +313,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                             // adjust the length by the offset we've tracked
                             // due to the misreported length discussed above
                             var test_width = new_width - total_offset;
-                            // if our latest version of the string is too 
+                            // if our latest version of the string is too
                             // big for the bounds, use the previous
                             // version of the string (without the newest word
                             // added) and use the latest word to restart the
@@ -343,7 +344,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                                     temp = {string: final_string, width: new_width, offset: total_offset};
                                     substrings.push(temp);
                                 }
-                            } 
+                            }
                         }
 
                         // position the overall text node
@@ -364,7 +365,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                             ;
                         }
                         
-                        // append each substring as a tspan					
+                        // append each substring as a tspan
                         var current_tspan;
                         var tspan_count;
                         // double check that the text content has been removed
@@ -387,7 +388,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                                             return line_height;
                                         }
                                     });
-                                // shift left from default position, which 
+                                // shift left from default position, which
                                 // is probably based on the full length of the
                                 // text string until we make this adjustment
                                 current_tspan
@@ -415,7 +416,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 
             // if a wrap method if being forced, assign that
             // function
-            if(force_wrap_method) {        
+            if(force_wrap_method) {
                 if(force_wrap_method == 'foreignobjects') {
                     wrap_method = wrap_with_foreignobjects;
                 } else if (force_wrap_method == 'tspans') {
