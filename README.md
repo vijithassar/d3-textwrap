@@ -314,7 +314,7 @@ d3.select('text').textwrap(bounds).remove();
 </html>
 ```
 
-However, foreignObject does not support CSS – that needs to be applied to <em>the div inside the foreignObject</em> – so this works in tspan mode but do anything in foreignObject mode:
+However, foreignObject does not support CSS – that needs to be applied to <em>the div inside the foreignObject</em> – so this works in tspan mode but doesn't do anything in foreignObject mode:
 
 ```html
 <script type="text/javascript">
