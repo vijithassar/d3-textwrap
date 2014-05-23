@@ -25,7 +25,7 @@ To very quickly convey how annoying this can be, here's the project description 
 JavaScript plugin to enable automatic line wrapping in SVG images by using text, tspan, and foreignObject elements, as well as computed character length calculations. Include after D3 and call textwrap() on any text node in order to magically line wrap long strings of text to your desired boundaries in the SVG - safe, clean, and cross-browser!
 ```
 
-Except that in the SVG there would be no way to scroll. Oof.
+Except that in the SVG there would be no way to scroll. Yikes.
 
 The easiest way to deal with this is to first insert something called a foreignObject into the SVG, which is essentially a generic blob of space into which you can cram whatever else you want. Just append a foreignObject, insert a div tag or a p tag or whatever else inside it, and then let HTML handle the line wrapping just as it would on any web page.
 
