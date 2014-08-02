@@ -159,7 +159,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
             if(selection) {
                 return selection;
             // if all else fails, just return false. if you hit this point then you're
-            // almost trying to call the textwrap() method on something that
+            // almost certainly trying to call the textwrap() method on something that
             // doesn't make sense!
             } else {
                 return false;
