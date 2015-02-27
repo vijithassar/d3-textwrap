@@ -11,7 +11,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 */
 
 (function() {
-    
+
     // set this variable to a string value to always force a particular
     // wrap method for development purposes, for example to check tspan
     // rendering using a foreignobject-enabled browser. set to 'tspan' to
@@ -19,7 +19,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
     var force_wrap_method = false; // by default no wrap method is forced
     // force_wrap_method = 'tspans'; // uncomment this statement to force tspans
     // force_wrap_method = 'foreignobjects'; // uncomment this statement to force foreignobjects
-    
+
     // exit immediately if something in this location
     // has already been defined; the plugin will defer to whatever
     // else you're doing in your code
@@ -37,17 +37,17 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
     // create the plugin method twice, both for regular use
     // and again for use inside the enter() selection
     d3.selection.prototype.textwrap = d3.selection.enter.prototype.textwrap = function(bounds, padding) {
-    
+
         // default value of padding is zero if it's undefined
         var padding = parseInt(padding) || 0;
-    
+
         // save callee into a variable so we can continue to refer to it
         // as the function scope changes
         var selection = this;
-        
+
         // create a variable to store desired return values in
         var return_value;
-        
+
         // extract wrap boundaries from any d3-selected rect and return them
         // in a format that matches the simpler object argument option
         var extract_bounds = function(bounds) {
@@ -121,7 +121,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 return false;
             }
         }
-        
+
         var apply_padding = function(bounds, padding) {
             var padded_bounds = bounds;
             if(padding !== 0) {
@@ -130,18 +130,17 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 padded_bounds.width -= padding * 2;
                 padded_bounds.height -= padding * 2;
             }
-            console.log(padded_bounds)
             return padded_bounds;
         }
-        
+
         // verify bounds
         var verified_bounds = verify_bounds(bounds);
-        
+
         // modify bounds if a padding value is provided
         if(padding) {
             verified_bounds = apply_padding(verified_bounds, padding);
         }
-       
+
         // check that we have the necessary conditions for this function to operate properly
         if(
             // selection it's operating on cannot be not empty
@@ -167,14 +166,14 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
         // if we've validated everything then we can finally proceed
         // to the meat of this operation
         } else {
-        
+
             // reassign the verified bounds as the set we want
             // to work with from here on; this ensures that we're
             // using the same data structure for our bounds regardless
             // of whether the input argument was a simple object or
             // a d3 selection
             bounds = verified_bounds;
-                                 
+
             // wrap using html and foreignObjects if they are supported
             var wrap_with_foreignobjects = function(item) {
                 // establish variables to quickly reference target nodes later
@@ -277,7 +276,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                                 text_to_wrap_array.push(substring);
                             }
                         }
-                    
+
                         // new array where we'll store the words re-assembled into
                         // substrings that have been tested against the desired
                         // maximum wrapping width
@@ -349,22 +348,20 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
 
                         // position the overall text node
                         text_node_selected.attr('y', function() {
-                            var y_offset = 0;
+                            var y_offset = bounds.y;
                             // shift by line-height to move the baseline into
-                            // the bounds – otherwise the text baseline would be
+                            // the bounds – otherwise the text baseline would be
                             // at the top of the bounds
                             if(line_height) {y_offset += line_height;}
-                            // shift by padding, if it's there
-                            if(padding) {y_offset += padding;}
                             return y_offset;
                         });
                         // shift to the right by the padding value
                         if(padding) {
                             text_node_selected
-                                .attr('x', padding)
+                                .attr('x', bounds.x)
                             ;
                         }
-                        
+
                         // append each substring as a tspan
                         var current_tspan;
                         var tspan_count;
@@ -434,20 +431,20 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                     wrap_method = wrap_with_tspans;
                 }
             }
-                
+
             // run the desired wrap function for each item
             // in the d3 selection that called .textwrap()
             for(var i = 0; i < selection.length; i++) {
                 var item = selection[i];
                 wrap_method(item);
             }
-            
+
             // return the modified nodes so we can chain other
             // methods to them.
             return return_value;
-        
+
         }
-		
+
     }
-    	
+
 })();
