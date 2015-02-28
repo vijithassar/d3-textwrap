@@ -242,9 +242,9 @@ Instead, just place your bounds within the same transforms as the text.
 </svg>
 ```
 
-This is also true when your bounds argument is a simple associative array – that is, the integer values in the array should work within the context established by upstream transforms from higher up in the DOM.
+This is also true when your bounds argument is a simple hashmap – that is, the integer values in the array should work within the context established by upstream transforms from higher up in the DOM.
 
-7) Just like anything else in D3, the bounds argument can actually be a function instead of a variable. The argument function can either select and return a D3 rect, or assemble and return an associative array. This is an easy way to run a single textwrap() method on many text selections at once.
+7) Just like anything else in D3, the bounds argument can actually be a function instead of a variable. The argument function can either select and return a D3 rect, or assemble and return a hashmap. This is an easy way to run a single textwrap() method on many text selections at once.
 
 It can be inline and anonymous:
 
