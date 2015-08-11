@@ -213,6 +213,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 return_value = parent.select('foreignObject');
             }
 
+
             // wrap with tspans if foreignObject is undefined
             var wrap_with_tspans = function(item) {
                 // operate on the first text item in the selection
@@ -327,12 +328,18 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                                     substrings.push(temp);
                                     text_node_selected.text('');
                                     text_node_selected.text(word);
+                                    // Handle case where there is just one more word to be wrapped
+                                    if(i == text_to_wrap_array.length - 1) {
+                                        new_string = word;
+                                        text_node_selected.text(new_string);
+                                        new_width = text_node.getComputedTextLength();
+                                    }
                                 }
                             }
                             // if we're up to the last word in the array,
                             // get the computed length as is without
                             // appending anything further to it
-                            else if(i == text_to_wrap_array.length - 1) {
+                            if(i == text_to_wrap_array.length - 1) {
                                 text_node_selected.text('');
                                 var final_string = new_string;
                                 if(
@@ -344,22 +351,6 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                                     substrings.push(temp);
                                 }
                             }
-                        }
-
-                        // position the overall text node
-                        text_node_selected.attr('y', function() {
-                            var y_offset = bounds.y;
-                            // shift by line-height to move the baseline into
-                            // the bounds – otherwise the text baseline would be
-                            // at the top of the bounds
-                            if(line_height) {y_offset += line_height;}
-                            return y_offset;
-                        });
-                        // shift to the right by the padding value
-                        if(padding) {
-                            text_node_selected
-                                .attr('x', bounds.x)
-                            ;
                         }
 
                         // append each substring as a tspan
@@ -389,19 +380,43 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                                 // is probably based on the full length of the
                                 // text string until we make this adjustment
                                 current_tspan
-                                    .attr('dx', function() {
-                                        if(i == 0) {
-                                            var render_offset = 0;
-                                        } else if(i > 0) {
-                                            render_offset = substrings[i - 1].width;
-                                            render_offset = render_offset * -1;
-                                        }
-                                        return render_offset;
+                                    .attr('x', function() {
+                                        var x_offset = bounds.x;
+                                        if(padding) {x_offset += padding;}
+                                        return x_offset;
                                     });
+//                                    .attr('dx', function() {
+//                                        if(i == 0) {
+//                                            var render_offset = 0;
+//                                        } else if(i > 0) {
+//                                            render_offset = substrings[i - 1].width;
+//                                            render_offset = render_offset * -1;
+//                                        }
+//                                        return render_offset;
+//                                    });
                             }
                         }
                     }
                 }
+                // position the overall text node, whether wrapped or not
+                text_node_selected.attr('y', function() {
+                    var y_offset = bounds.y;
+                    // shift by line-height to move the baseline into
+                    // the bounds – otherwise the text baseline would be
+                    // at the top of the bounds
+                    if(line_height) {y_offset += line_height;}
+                    // shift by padding, if it's there
+                    if(padding) {y_offset += padding;}
+                    return y_offset;
+                });
+                // shift to the right by the padding value
+                text_node_selected.attr('x', function() {
+                    var x_offset = bounds.x;
+                    if(padding) {x_offset += padding;}
+                    return x_offset;
+                });
+
+
                 // assign our modified text node with tspans
                 // to the return value
                 return_value = d3.select(parent).selectAll('text');
