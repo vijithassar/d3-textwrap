@@ -182,6 +182,15 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 var styled_line_height = text_node.style('line-height');
                 // extract our desired content from the single text element
                 var text_to_wrap = text_node.text();
+				// the class wrapped is currently hardcoded
+                // probably not necessary but easy to
+                // override using .classed() and for now
+                // it's nice to avoid a litany of input
+                // arguments
+				var class_list = "wrapped";
+				if (text_node.attr("class") != null) {
+					class_list += " " + text_node.attr("class");
+				}
                 // remove the text node and replace with a foreign object
                 text_node.remove();
                 var foreign_object = parent.append('foreignObject');
@@ -195,12 +204,7 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 // insert an HTML div
                 var wrap_div = foreign_object
                     .append('xhtml:div')
-                    // this class is currently hardcoded
-                    // probably not necessary but easy to
-                    // override using .classed() and for now
-                    // it's nice to avoid a litany of input
-                    // arguments
-                    .attr('class', 'wrapped');
+                    .attr('class', class_list);
                 // set div to same dimensions as foreign object
                 wrap_div
                     .style('height', bounds.height)
