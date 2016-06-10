@@ -187,7 +187,10 @@ Detailed instructions at http://www.github.com/vijithassar/d3textwrap
                 // override using .classed() and for now
                 // it's nice to avoid a litany of input
                 // arguments
-				var class_list = "wrapped "+text_node.attr("class");
+				var class_list = "wrapped";
+				if (text_node.attr("class") != null) {
+					class_list += " " + text_node.attr("class");
+				}
                 // remove the text node and replace with a foreign object
                 text_node.remove();
                 var foreign_object = parent.append('foreignObject');
