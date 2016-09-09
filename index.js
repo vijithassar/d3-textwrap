@@ -1,1 +1,1 @@
-export {default as textwrap} from "./src/textwrap";
+export {default as textwrap} from './src/textwrap';
