@@ -1,0 +1,35 @@
+{
+  "name": "d3-textwrap",
+  "version": "2.0.0",
+  "description": "wrap long lines of text using foreignObject tags or tspans as appropriate, depending on browser support",
+  "keywords": [
+    "d3",
+    "d3-module",
+    "text"
+  ],
+  "license": "MIT",
+  "main": "build/d3-textwrap.js",
+  "jsnext:main": "index",
+  "homepage": "https://github.com/vijithassar/d3-textwrap",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vijithassar/d3-textwrap.git"
+  },
+  "scripts": {
+    "lint": "eslint --config eslintrc.json src/*.js && eslint --config eslintrc.json test/*.js",
+    "pretest": "rm -rf build && mkdir build && rollup -g d3-selection:d3,d3-textwrap:d3 -f umd -n d3 -o build/d3-textwrap.js -- index.js",
+    "test": "tape 'test/**/*-test.js'",
+    "prepublish": "npm run test && uglifyjs build/d3-textwrap.js -c -m -o build/d3-textwrap.min.js",
+    "postpublish": "zip -j build/d3-textwrap.zip -- LICENSE README.md build/d3-foo.js build/d3-textwrap.min.js"
+  },
+  "dependencies": {
+    "d3-selection": "^1.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.3.1",
+    "jsdom": "^9.4.2",
+    "rollup": "0.27",
+    "tape": "4",
+    "uglify-js": "2"
+  }
+}
