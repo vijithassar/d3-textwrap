@@ -1,0 +1,46 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "sourceType": "module"
+    },
+    "ecmaFeatures": {"blockBindings": true},
+    "rules": {
+        "indent": ["warn", 4],
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["warn", "single"],
+        "semi": ["error", "always"],
+        "strict": ["error", "safe"],
+        "no-dupe-keys": "error",
+        "one-var": ["error", {
+          "var": "always",
+          "let": "never",
+          "const": "never"
+        }],
+        "space-before-function-paren": ["error", "never"],
+        "space-before-blocks": ["error", "always"],
+        "space-infix-ops": "error",
+        "key-spacing": ["error", {
+          "afterColon": true,
+          "mode": "strict"
+        }],
+        "func-style": ["error", "expression"],
+        "eqeqeq": "error",
+        "dot-notation": "error",
+        "no-redeclare": "error",
+        "radix": "error",
+        "vars-on-top": "error",
+        "no-trailing-spaces": "error",
+        "no-mixed-spaces-and-tabs": "error",
+        "one-var-declaration-per-line": ["error", "always"],
+        "newline-per-chained-call": ["error", {"ignoreChainWithDepth": 3}],
+        "no-console": ["error", { "allow": ["warn", "error"] }],
+        "no-debugger": "error",
+        "no-use-before-define": "error",
+        "no-unused-vars": ["error", {"args": "none"}],
+        "no-native-reassign": ["error", {"exceptions": ["document"]}]
+    }
+}
