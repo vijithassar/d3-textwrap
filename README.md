@@ -73,6 +73,20 @@ wrap = d3.textwrap()
     .padding(10);
 ```
 
+<a name="method" href="#method">#</a> textwrap.**method**(*method*)
+
+Gets or sets the name of the text wrapping method to be used, which can be either "foreignobject" or "tspans". If this is not specified, the default behavior is to use foreignobject wrapping for most browser, but fall back to using tspan elements when that is not an available option. With that said, in some scenarios it may also make sense to always use the tspan method in pursuit of consistent behavior.
+
+```js
+var wrap;
+// create a text wrapping function
+wrap = d3.textwrap()
+    // wrap to 480 x 960 pixels
+    .bounds({height: 480, width: 960})
+    // wrap with tspans in all browsers
+    .method('tspans');
+```
+
 ### Running
 
 After configuring a text wrapping function, run it using [selection.call()](https://github.com/d3/d3-selection#selection_call):
@@ -89,3 +103,7 @@ text = d3.selectAll('text');
 // run the text wrapping function on all text nodes
 text.call(wrap);
 ```
+
+## Alternatives
+
+Gregor Aisch's handy [d3-jetpack](https://github.com/gka/d3-jetpack) toolkit also provides a text wrapping routine which works by counting the number of characters on each line instead of measuring the amount of horizontal space they occupy.
