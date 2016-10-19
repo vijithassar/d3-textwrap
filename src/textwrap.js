@@ -162,9 +162,11 @@ wrap.tspans = function(text, dimensions, padding) {
         }
     }
     if (typeof padding === 'number') {
-        text
-            .attr('y', text.attr('y') + padding)
-            .attr('x', text.attr('x') + padding);
+      var cx = parseInt(text.attr('x')) || 0
+      var cy = parseInt(text.attr('y')) || 0
+      text
+          .attr('y', cy + padding)
+          .attr('x', cx + padding);
     }
 };
 
