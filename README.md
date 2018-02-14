@@ -29,6 +29,12 @@ d3.selectAll('text').call(wrap);
 
 If you use NPM, `npm install d3-textwrap`. Otherwise, download the [latest release](#).
 
+Then, if you're using ES6 imports
+```
+import { textwrap } from 'd3-textwrap';
+d3.textwrap = textwrap;
+```
+
 ## API Reference
 
 * [Creating Text Wrapping Functions](#creating)
