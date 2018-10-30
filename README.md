@@ -75,7 +75,7 @@ wrap = d3.textwrap()
 
 <a name="method" href="#method">#</a> textwrap.**method**(*method*)
 
-Gets or sets the name of the text wrapping method to be used, which can be either "foreignobject" or "tspans". If this is not specified, the default behavior is to use foreignobject wrapping for most browser, but fall back to using tspan elements when that is not an available option. With that said, in some scenarios it may also make sense to always use the tspan method in pursuit of consistent behavior.
+Gets or sets the name of the text wrapping method to be used, which can be either "foreignobject" or "tspans". If this is not specified, the default behavior is to use foreignobject wrapping for most browsers, but fall back to using tspan elements when that is not an available option. With that said, in some scenarios it may also make sense to always use the tspan method in pursuit of consistent behavior.
 
 ```js
 var wrap;
