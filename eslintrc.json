@@ -41,6 +41,7 @@
         "no-debugger": "error",
         "no-use-before-define": "error",
         "no-unused-vars": ["error", {"args": "none"}],
-        "no-native-reassign": ["error", {"exceptions": ["document"]}]
+        "no-native-reassign": ["error", {"exceptions": ["document"]}],
+        "no-global-assign": ["error", {"exceptions": ["document"]}]
     }
 }
