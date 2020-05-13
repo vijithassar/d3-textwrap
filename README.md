@@ -25,9 +25,39 @@ var wrap = d3.textwrap().bounds({height: 480, width: 960});
 d3.selectAll('text').call(wrap);
 ```
 
-## Installing
+## Install
 
-If you use NPM, `npm install d3-textwrap`. Otherwise, download the [latest release](#).
+Install with [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/), or download the latest [release](https://github.com/vijithassar/d3-textwrap/releases).
+
+```bash
+npm install d3-textwrap
+```
+
+## Import
+
+You can import with ESM `import` syntax and then attach it to your `d3` object:
+
+```javascript
+import { textwrap } from 'd3-textwrap';
+d3.textwrap = textwrap;
+```
+
+Or do the same with CJS `require()`:
+
+```javascript
+require('d3-textwrap').textwrap;
+d3.textwrap = textwrap;
+```
+
+You can also load directly in the browser without a build tool or package manager. Add the plugin script to your HTML page after you've loaded d3.js and the `textwrap()` function will be automatically added to the `d3` object:
+
+```javascript
+<html>
+  <head>
+    <script type="text/javascript" src="https://d3js.org/d3.v5.min.js"></script>
+    <script type="text/javascript" src="/path/to/textwrap.js"></script>
+  </head>
+```
 
 ## API Reference
 
