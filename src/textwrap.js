@@ -113,8 +113,8 @@ wrap.foreignobject = function(text, dimensions, padding) {
         .attr('height', dimensions.height);
     if (typeof padding === 'number') {
         foreignobject
-            .attr('x', padding)
-            .attr('y', padding);
+            .attr('x', +text.attr('x') + padding)
+            .attr('y', +text.attr('y') + padding);
     }
     // insert an HTML div
     div = foreignobject
