@@ -45,7 +45,7 @@ d3.textwrap = textwrap;
 Or do the same with CJS `require()`:
 
 ```javascript
-require('d3-textwrap').textwrap;
+var textwrap = require('d3-textwrap').textwrap;
 d3.textwrap = textwrap;
 ```
 
