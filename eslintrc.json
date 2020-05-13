@@ -5,9 +5,9 @@
     },
     "extends": "eslint:recommended",
     "parserOptions": {
-      "sourceType": "module"
+      "sourceType": "module",
+      "ecmaVersion": 2015
     },
-    "ecmaFeatures": {"blockBindings": true},
     "rules": {
         "indent": ["warn", 4],
         "linebreak-style": ["error", "unix"],
