@@ -18,10 +18,14 @@
   },
   "scripts": {
     "lint": "eslint --config eslintrc.json src/*.js && eslint --config eslintrc.json test/*.js",
-    "pretest": "rm -rf build && mkdir build && rollup -g d3-selection:d3,d3-textwrap:d3 -f umd -n d3 -o build/d3-textwrap.js -- index.js",
+    "cleanup": "rm -rf build",
+    "build": "npm run cleanup && mkdir build && rollup -g d3-selection:d3,d3-textwrap:d3 -f umd -n d3 -o build/d3-textwrap.js -- index.js",
+    "pretest": "npm run build",
     "test": "tape 'test/**/*-test.js'",
-    "prepublish": "npm run test && uglifyjs build/d3-textwrap.js -c -m -o build/d3-textwrap.min.js",
-    "postpublish": "zip -j build/d3-textwrap.zip -- LICENSE README.md build/d3-textwrap.js build/d3-textwrap.min.js"
+    "minify": "uglifyjs build/d3-textwrap.js -c -m -o build/d3-textwrap.min.js",
+    "archive": "zip -j build/d3-textwrap.zip -- LICENSE README.md build/d3-textwrap.js build/d3-textwrap.min.js",
+    "prepare": "npm run test && npm run build && npm run minify",
+    "postpublish": "npm run archive"
   },
   "dependencies": {
     "d3-selection": "^1.0.2"
