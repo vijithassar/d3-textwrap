@@ -1,6 +1,6 @@
 {
   "name": "d3-textwrap",
-  "version": "2.0.2",
+  "version": "3.0.0",
   "author": "Vijith Assar",
   "description": "wrap long lines of text using foreignObject tags or tspans as appropriate, depending on browser support",
   "keywords": [
