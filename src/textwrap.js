@@ -163,8 +163,8 @@ wrap.tspans = function(text, dimensions, padding) {
     }
     if (typeof padding === 'number') {
         text
-            .attr('y', +text.attr('y') + padding)
-            .attr('x', +text.attr('x') + padding);
+            .attr('y', + Number(text.attr('y')) + padding)
+            .attr('x', + Number(text.attr('x')) + padding);
     }
 };
 
